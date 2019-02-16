@@ -14,9 +14,6 @@ formatted_req={
     "tail" : {"bushy-fur" : "straight"}
 }
 
-
-search_reg= {"pet":"dog"}
-
 # def connect():
 # Connect to db, return obj of connection
 client =  pymongo.mongo_client.MongoClient('mongodb://root:rootPassXXX@localhost:27017/admin')

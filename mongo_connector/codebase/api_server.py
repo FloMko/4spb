@@ -10,9 +10,16 @@ app = FlaskAPI(__name__)
 
 @app.route('/search/',methods=['POST'])
 def search():
-    profile = request.form.get("profile")
-    image = request.form.get("image")
-    return json.dumps(response)
+    search_list = list()
+    print("searched data : {}".format(request.get_json()))
+    data = request.get_json()
+    response = db_helper.search_record(data)
+    for res in response:
+        print(res)
+        search_list.append(res)
+        print("one:" + res)
+    print(search_list)
+    return search_list
 
 
 @app.route('/populate/',methods=['POST'])
@@ -23,7 +30,7 @@ def insert():
     print(data)
     data_new = db_helper.read_request(data)
     res = db_helper.write_record(data_new)
-    return res
+    return str(res)
 
 
 if __name__ == "__main__":
