@@ -1,4 +1,4 @@
-[{
+{
     "pet" : "dog",
     "long": "30",
     "size": "big",
@@ -6,4 +6,4 @@
     "fur": {"short" : "curly"},
     "ears": {"stand-up" : "both"},
     "tail" : {"bushy-fur" : "straight"}
-}]
+}
