@@ -18,9 +18,10 @@ def search():
     data = request.get_json()
     response = db_helper.search_record(data)
     for res in response:
-        print(res)
-        search_list.append(res)
-        print("one:" + res)
+        if res['response']:
+            print(res['response'])
+            search_list.append(res['response'])
+            print("one:",res)
     print(search_list)
     return search_list
 

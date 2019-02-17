@@ -23,6 +23,12 @@ def read_request(json_req):
     # Get json data, convert to mongo insert
     return json_req
 
+def write(reg):
+    inserted_count = 0
+    for data in reg:
+        response = write_record(data['response'])
+        inserted_count+=response
+
 def write_record(formatted_req):
     # write bson to db, return res
     req = [pymongo.InsertOne(formatted_req)]
