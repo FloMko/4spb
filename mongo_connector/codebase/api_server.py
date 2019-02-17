@@ -10,6 +10,9 @@ app = FlaskAPI(__name__)
 
 @app.route('/search/',methods=['POST'])
 def search():
+    '''
+    didn't worked yet
+    '''
     search_list = list()
     print("searched data : {}".format(request.get_json()))
     data = request.get_json()
@@ -24,8 +27,10 @@ def search():
 
 @app.route('/populate/',methods=['POST'])
 def insert():
+    '''
+    Get POST json. populate db
+    '''
     print("Posted data : {}".format(request.get_json()))
-    # return "Hello World!"
     data = request.get_json()
     print(data)
     data_new = db_helper.read_request(data)
