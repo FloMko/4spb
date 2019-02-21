@@ -5,13 +5,18 @@ from sklearn.cluster import KMeans
 import sklearn
 import os
 from sklearn.neighbors import NearestNeighbors
+from sklearn import svm
+from sklearn.metrics import accuracy_score
 
 
 extractor = cv2.xfeatures2d.SIFT_create()
 
 images = os.listdir(path='.')
+train_images = os.listdir(path='../train_data')
 image_path = '0t8wjdjFbX8.jpg'
 sift_keypoints = []
+feature_vectors=[]
+class_vectors=[]
 
 # should be as length of dataset
 num_cluster = 268 
@@ -45,15 +50,47 @@ def clusterize_descriptor(descriptors):
     kmean = sklearn.cluster.MiniBatchKMeans(n_clusters=num_cluster, random_state=0).fit(sift_keypoints)
     return kmean
 
+def get_histogram(images, cluster):
+    feature_vectors=[]
+    class_vectors=[]
+    for image in images:
+        img = cv2.imread(image)
+        gray_image = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        _, descriptors = features(gray_image, extractor)
+        #classification of all descriptors in the model
+        predict_kmeans=cluster.predict(descriptors)
+        #calculates the histogram
+        hist, bin_edges=np.histogram(predict_kmeans,bins=num_cluster)
+        #histogram is the feature vector
+        feature_vectors.append(hist)
+        #define the class of the image (elephant or electric guitar)
+        class_vectors.append(str(image))
+    feature_vectors=np.asarray(feature_vectors)
+    class_vectors=np.asarray(class_vectors)
+    #return vectors and classes we want to classify
+    return class_vectors, feature_vectors
+
 
 def main():
     print("Step 1: Calculating Kmeans classifier")
     descriptors = get_descriptors(images)
     print("Step 1.2 Training KMeans")
-    model = clusterize_descriptor(descriptors)
-    print("That's all")
-    print(type(model))
-    model.shape
+    cluster = clusterize_descriptor(descriptors)
+    print("Step 2: Extracting histograms of training and testing images")
+    print("Training")
+    [train_class,train_featvec] = get_histogram(images, cluster)
+    print("Testing")
+    [test_class,test_featvec] = get_histogram(train_images,cluster)
+    print("Step 3: Training the SVM classifier")
+    clf = svm.SVC()
+    clf.fit(train_featvec, train_class)
+
+    print("Step 4: Testing the SVM classifier")  
+    predict=clf.predict(test_featvec)
+
+    score=accuracy_score(np.asarray(test_class), predict)
+
+    print("Accuracy:" +str(score))
 
 
 
