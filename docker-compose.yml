@@ -7,7 +7,11 @@ services:
     command: python /codebase/api_server.py
     ports:
       - 5000:5000
-  mongo-service:
+  api-js:
+    build:
+      context: ./vk_interaction_obj_rec
+      dockerfile: Dockerfile
+  mongo-db:
     image: mongo:4.0.6
     environment:
       - MONGO_INITDB_ROOT_PASSWORD=rootPassXXX

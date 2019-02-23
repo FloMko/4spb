@@ -4,7 +4,6 @@
   "description": "",
   "main": "NLP.js",
   "dependencies": {
-    "@tensorflow/tfjs-node": "^0.2.3",
     "axios": "^0.18.0",
     "canvas": "^2.3.1",
     "dotenv": "^6.2.0",
@@ -19,8 +18,7 @@
     "node-vk-bot": "^1.2.3",
     "node-vk-bot-api": "^2.4.8",
     "underscore": "^1.9.1",
-    "vk-easy": "^1.4.1",
-    "windows-build-tools": "^5.1.0"
+    "vk-easy": "^1.4.1"
   },
   "devDependencies": {},
   "scripts": {
