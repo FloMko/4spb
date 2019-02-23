@@ -1,0 +1,33 @@
+{
+  "name": "nlp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "NLP.js",
+  "dependencies": {
+    "@tensorflow/tfjs-node": "^0.2.3",
+    "axios": "^0.18.0",
+    "canvas": "^2.3.1",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "get-pixels": "^3.3.2",
+    "jpeg-js": "^0.3.4",
+    "keras-js": "^1.0.3",
+    "natural": "^0.6.3",
+    "ndarray": "^1.0.18",
+    "ndarray-ops": "^1.2.2",
+    "node-gyp": "^3.8.0",
+    "node-vk-bot": "^1.2.3",
+    "node-vk-bot-api": "^2.4.8",
+    "underscore": "^1.9.1",
+    "vk-easy": "^1.4.1",
+    "windows-build-tools": "^5.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install": "node-gyp rebuild"
+  },
+  "author": "",
+  "license": "ISC",
+  "gypfile": true
+}

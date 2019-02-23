@@ -1,0 +1,17 @@
+<canvas id="canvas" style="width:224; height:224"></canvas>
+<script>
+  var url = 'https://sun9-13.userapi.com/c635104/v635104395/606d3/bkokCFW0mTU.jpg'
+  var h = 224, w = 224
+  var canvas = document.getElementById("canvas");
+  var ctx = canvas.getContext("2d");
+  var img = new Image();
+  img.src = url;
+  img.onload = function () {
+    console.log(img);
+    ctx.drawImage(img, 0, 0, 200, 100);
+  }
+  // console.log(myimg);
+  var pixel = ctx.getImageData(0, 0, w, h);
+  // console.log(pixel);
+
+</script>
