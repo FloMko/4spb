@@ -11,7 +11,7 @@ var IN = require("./imageNetClasses.js")
 const _ = require('underscore');
 const { Image, createCanvas, loadImage } = require('canvas')
 //
-var url = 'http://26ddd8cf.ngrok.io' // url базы данных Максима
+var url = 'http://api-python:5000' // url базы данных Максима
 var BOT_TOKEN = process.env.BOT_TOKEN
 var DATA = {}
 
@@ -193,10 +193,10 @@ function imageDataToPixels(data, w) {
 
 
 
-// getWall()
+getWall()
 // findInDb()
 // useModel()
-getImage()
+// getImage()
 // getWallAndFindText()
 
 

@@ -16,7 +16,7 @@ formatted_req={
 
 # def connect():
 # Connect to db, return obj of connection
-client =  pymongo.mongo_client.MongoClient('mongodb://root:rootPassXXX@mongodb:27017/admin')
+client =  pymongo.mongo_client.MongoClient('mongodb://root:rootPassXXX@mongo-db:27017/admin')
 db = client.db
 
 def read_request(json_req):

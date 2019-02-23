@@ -6,15 +6,16 @@ services:
       dockerfile: Dockerfile
     command: python /codebase/api_server.py
     ports:
-      - 5000:5000
+      - 127.0.0.1:5000:5000
   api-js:
     build:
       context: ./vk_interaction_obj_rec
       dockerfile: Dockerfile
+    command: node VkWall.js
   mongo-db:
     image: mongo:4.0.6
     environment:
-      - MONGO_INITDB_ROOT_PASSWORD=rootPassXXX
       - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=rootPassXXX
     ports:
-    - 27017:27017
+    - 127.0.0.1:27017:27017
