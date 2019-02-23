@@ -1,0 +1,16 @@
+version: '2.2'
+services:
+  api-python:
+    build:
+      context: ./ranking_system
+      dockerfile: Dockerfile
+    command: python /codebase/api_server.py
+    ports:
+      - 5000:5000
+  mongo-service:
+    image: mongo:4.0.6
+    environment:
+      - MONGO_INITDB_ROOT_PASSWORD=rootPassXXX
+      - MONGO_INITDB_ROOT_USERNAME=root
+    ports:
+    - 27017:27017
