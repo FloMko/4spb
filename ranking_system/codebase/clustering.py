@@ -11,8 +11,8 @@ from sklearn.metrics import accuracy_score
 
 extractor = cv2.xfeatures2d.SIFT_create()
 
-images = os.listdir(path='.')
-train_images = os.listdir(path='../train_data')
+dataset_path = '/dataset'
+images = os.listdir(path=dataset)
 image_path = '0t8wjdjFbX8.jpg'
 sift_keypoints = []
 feature_vectors=[]
@@ -54,7 +54,7 @@ def get_histogram(images, cluster):
     feature_vectors=[]
     class_vectors=[]
     for image in images:
-        img = cv2.imread(image)
+        img = cv2.imread(dataset_path+image)
         gray_image = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         _, descriptors = features(gray_image, extractor)
         #classification of all descriptors in the model

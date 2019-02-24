@@ -5,6 +5,9 @@ services:
       context: ./ranking_system
       dockerfile: Dockerfile
     command: python /codebase/api_server.py
+    volumes:
+      - ./ranking_system/dataset:/dataset
+      - ./ranking_system/testdata:/testdata
     ports:
       - 127.0.0.1:5000:5000
   api-js:
