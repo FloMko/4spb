@@ -11,9 +11,10 @@ from sklearn.metrics import accuracy_score
 
 extractor = cv2.xfeatures2d.SIFT_create()
 
-dataset_path = '/dataset'
-images = os.listdir(path=dataset)
-image_path = '0t8wjdjFbX8.jpg'
+dataset_path = '/dataset/'
+images = os.listdir(path=dataset_path)
+test_image = '0-kcjAoVURk.jpg'
+testdata_path = '/testdata/'
 sift_keypoints = []
 feature_vectors=[]
 class_vectors=[]
@@ -26,9 +27,9 @@ def features(image, extractor):
     keypoints, descriptors = extractor.detectAndCompute(image, None)
     return keypoints, descriptors
 
-def get_descriptors(images):
+def get_descriptors(images, image_path):
     for image in images:
-        img = cv2.imread(image)
+        img = cv2.imread(image_path+image)
         gray_image = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         _, descriptors = features(gray_image, extractor)
         sift_keypoints.append(descriptors)
@@ -50,11 +51,11 @@ def clusterize_descriptor(descriptors):
     kmean = sklearn.cluster.MiniBatchKMeans(n_clusters=num_cluster, random_state=0).fit(sift_keypoints)
     return kmean
 
-def get_histogram(images, cluster):
+def get_histogram(images, image_path, cluster):
     feature_vectors=[]
     class_vectors=[]
     for image in images:
-        img = cv2.imread(dataset_path+image)
+        img = cv2.imread(image_path+image)
         gray_image = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         _, descriptors = features(gray_image, extractor)
         #classification of all descriptors in the model
@@ -73,14 +74,14 @@ def get_histogram(images, cluster):
 
 def main():
     print("Step 1: Calculating Kmeans classifier")
-    descriptors = get_descriptors(images)
+    descriptors = get_descriptors(images, dataset_path)
     print("Step 1.2 Training KMeans")
     cluster = clusterize_descriptor(descriptors)
     print("Step 2: Extracting histograms of training and testing images")
     print("Training")
-    [train_class,train_featvec] = get_histogram(images, cluster)
+    [train_class,train_featvec] = get_histogram(images, dataset_path, cluster)
     print("Testing")
-    [test_class,test_featvec] = get_histogram(train_images,cluster)
+    [test_class,test_featvec] = get_histogram(train_images, testdata_path, cluster)
     print("Step 3: Training the SVM classifier")
     clf = svm.SVC()
     clf.fit(train_featvec, train_class)

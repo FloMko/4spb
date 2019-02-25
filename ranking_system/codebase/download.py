@@ -6,7 +6,7 @@ import shutil
 # get all list of images
 search_req = {}
 
-res = requests.post('http://26ddd8cf.ngrok.io/search/', json=search_req)
+res = requests.post('http://127.0.0.1:5000/search/', json=search_req)
 
 list_val = ast.literal_eval(res.text)
 
@@ -24,6 +24,6 @@ for obj in list_val[0]['items']:
 # domnload images
 for photo_url in list_photo:
     response = requests.get(photo_url, stream=True)
-    with open('../dataset/'+photo_url.split('/')[-1], 'wb') as out_file:
+    with open('./../dataset/'+photo_url.split('/')[-1], 'wb') as out_file:
         shutil.copyfileobj(response.raw, out_file)
     del response

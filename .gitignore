@@ -1,4 +1,4 @@
 *dataset/*
 ranking_system/dataset/
-ranking_system/train_data/
 vk_interaction_obj_rec/.env
+ranking_system/testdata/
