@@ -9,7 +9,12 @@ import ranking_system.codebase.cluster as cluster
 
 cl =  cluster.Cluster(images)
 
+import ranking_system.codebase.vectorize as vectorize 
 
-# lets get vector from path
-cl.get_vector(cl.path[0])
+tr = vectorize.Transforms(images, cl.model)
 
+
+#WIP!
+# cause error tr.vectorize_all
+# cannot reshape array of size 892928 into shape (218,512)
+tr.vectorize_all
