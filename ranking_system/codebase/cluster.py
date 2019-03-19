@@ -22,6 +22,8 @@ def get_vector(path):
     vec = model.predict(x).ravel()
     return vec
 
+
+
 def main():
     vec = get_vector(dataset_path+images[0])
     print(vec)
