@@ -3,15 +3,23 @@ import os
 import ranking_system.codebase.image_helper as imageHelper
 dataset_path='./ranking_system/dataset/'
 images = os.listdir(path=dataset_path)
-images = imageHelper.Helper(images,dataset_path).fix_path()
+paths = imageHelper.Helper(images,dataset_path).fix_path()
 
 import ranking_system.codebase.cluster as cluster
 
-cl =  cluster.Cluster(images)
+cl =  cluster.Cluster(paths)
 
 import ranking_system.codebase.vectorize as vectorize 
 
-tr = vectorize.Transforms(images, cl.model)
+###
+for img in paths:
+    predictions.append(cl.get_vector(img))
+knn = NearestNeighbors(metric='cosine', algorithm='brute')
+knn.fit(predictions)
+dist, indices = knn.kneighbors(predictions[21].reshape(1,-1), n_neighbors=218)
+similar_images = [(images[indices[0][i]], dist[0][i]) for i in range(len(indices[0]))]
+# it'l return simular ~0.2 deA3A6leeZ0.jpg & hNhm6fAEs5k.jpg
+
 
 
 #WIP!

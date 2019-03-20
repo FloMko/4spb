@@ -11,6 +11,7 @@ class Helper:
     def __init__(self, images, dataset_path):
         self.dataset_path = dataset_path
         self.images = images
+        self.paths = []
         print('init helper')
 
     def resize(self, images, dim=(224,224)):
@@ -25,13 +26,12 @@ class Helper:
 
     def fix_path(self):
         '''
-        return formated path as np.array
+        return formated path, images list
         '''
         full_paths = list()
         for img in self.images:
             full_paths.append(self.dataset_path + img)
-        self.images = full_paths
-        return self.images
+        return full_paths
 
 if __name__ == "__main__":
     Helper.init()
