@@ -1,9 +1,13 @@
 import os
+from sklearn.neighbors import NearestNeighbors
+
 
 import ranking_system.codebase.image_helper as imageHelper
 dataset_path='./ranking_system/dataset/'
 images = os.listdir(path=dataset_path)
-paths = imageHelper.Helper(images,dataset_path).fix_path()
+imhelp = imageHelper.Helper(images,dataset_path)
+paths = imhelp.fix_path()
+imhelp.resize()
 
 import ranking_system.codebase.cluster as cluster
 
@@ -12,6 +16,7 @@ cl =  cluster.Cluster(paths)
 import ranking_system.codebase.vectorize as vectorize 
 
 ###
+predictions = []
 for img in paths:
     predictions.append(cl.get_vector(img))
 knn = NearestNeighbors(metric='cosine', algorithm='brute')

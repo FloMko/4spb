@@ -14,8 +14,8 @@ class Helper:
         self.paths = []
         print('init helper')
 
-    def resize(self, images, dim=(224,224)):
-        for image in self.images:
+    def resize(self, dim=(224,224)):
+        for image in self.paths:
             print(image)
             img = cv2.imread(image, cv2.IMREAD_UNCHANGED) 
             print('Original Dimensions : ',img.shape) 
@@ -28,10 +28,9 @@ class Helper:
         '''
         return formated path, images list
         '''
-        full_paths = list()
         for img in self.images:
-            full_paths.append(self.dataset_path + img)
-        return full_paths
+            self.paths.append(self.dataset_path + img)
+        return self.paths
 
 if __name__ == "__main__":
     Helper.init()
