@@ -3,39 +3,37 @@ from bson import json_util
 import json
 
 
-
-formatted_req={
-    "pet" : "dog",
-    "long": "30",
-    "size": "big",
-    "color": "white",
-    "fur": {"short" : "curly"},
-    "ears": {"stand-up" : "both"},
-    "tail" : {"bushy-fur" : "straight"}
-}
-
 # def connect():
 # Connect to db, return obj of connection
-client =  pymongo.mongo_client.MongoClient('mongodb://root:rootPassXXX@mongo-db:27017/admin')
-db = client.db
 
-def read_request(json_req):
-    # Get json data, convert to mongo insert
-    return json_req
+class db():
+    def __init__(self, mongourl, database, collection):
+        self.client = pymongo.mongo_client.MongoClient(mongourl)
+        self.db = self.client[database]
+        self.collection = self.db[collection]
 
-def write(reg):
-    inserted_count = 0
-    for data in reg:
-        response = write_record(data['response'])
-        inserted_count+=response
+    def read_request(self,json_req):
+        # Get json data, convert to mongo insert
+        return json_req
 
-def write_record(formatted_req):
-    # write bson to db, return res
-    req = [pymongo.InsertOne(formatted_req)]
-    res = db.test.bulk_write(req)
-    return res.inserted_count 
+    def write(self,reg):
+        inserted_count = 0
+        for data in reg:
+            response = self.write_record(data['response'])
+            inserted_count+=response
 
-def search_record(search_req):
-    # return result from spec collection
-    res = db.test.find(search_req)
-    return res
+    def write_record(self,formatted_req):
+        # write bson to db, return res
+        req = [pymongo.InsertOne(formatted_req)]
+        res = self.collection.bulk_write(req)
+        return res.inserted_count 
+
+    def search_record(self,search_req):
+        # return result from spec collection
+        res = self.collection.find_one(search_req)
+        return res
+
+    def search_records(self,search_req):
+        # return result from spec collection
+        res = self.collection.find(search_req)
+        return res
