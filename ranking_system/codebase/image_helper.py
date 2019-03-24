@@ -6,7 +6,7 @@ import os
 class Helper:
     '''
     for resiuzing image for imagenet
-        fixing path to dynamic directory
+    fixing path to dynamic directory
     '''
     def __init__(self, images, dataset_path):
         self.dataset_path = dataset_path

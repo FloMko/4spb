@@ -8,6 +8,9 @@ from keras.applications.vgg19 import preprocess_input
 
 
 class Vectors:
+    '''
+    for CNN network
+    '''
     def __init__(self, paths):
         self.bm = VGG19(weights='imagenet')
         self.model = Model(inputs=self.bm.input, outputs=self.bm.get_layer('fc1').output)
@@ -15,11 +18,19 @@ class Vectors:
         self.predictions = []
 
     def get_all_vectors(self):
+        '''
+        iterate over dataset
+        return preprocessed vectors
+        '''
         for img in self.paths:
             self.predictions.append(self.get_vector(img))
         return self.predictions
 
     def get_vector(self, path):
+        '''
+        get images
+        return preprocessed cnn vector
+        '''
         # read from file
         img = image.load_img(path, target_size=(224, 224))
         # make vector
