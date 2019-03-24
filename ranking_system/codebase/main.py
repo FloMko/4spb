@@ -1,25 +1,19 @@
 import os
-from sklearn.neighbors import NearestNeighbors
-
-
+import ranking_system.codebase.vectorize as vectorize 
+import ranking_system.codebase.cluster as cluster
 import ranking_system.codebase.image_helper as imageHelper
+
 dataset_path='./ranking_system/dataset/'
 images = os.listdir(path=dataset_path)
 imhelp = imageHelper.Helper(images,dataset_path)
 paths = imhelp.fix_path()
 imhelp.resize()
+vec = vectorize.Vectors(paths)
+predictions = vec.get_all_vectors()
 
-import ranking_system.codebase.cluster as cluster
 
-cl =  cluster.Cluster(paths)
-
-import ranking_system.codebase.vectorize as vectorize 
 
 ###
-predictions = []
-for img in paths:
-    predictions.append(cl.get_vector(img))
-knn = NearestNeighbors(metric='cosine', algorithm='brute')
 knn.fit(predictions)
 dist, indices = knn.kneighbors(predictions[21].reshape(1,-1), n_neighbors=218)
 similar_images = [(images[indices[0][i]], dist[0][i]) for i in range(len(indices[0]))]

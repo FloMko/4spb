@@ -1,46 +1,35 @@
-from glob import glob
-
 import numpy as np
-import scipy.sparse as sp
-from keras.applications.vgg19 import preprocess_input
+from keras.applications import VGG19
 from keras.preprocessing import image
+from keras.engine import Model
+from keras.applications.vgg19 import preprocess_input
 
 
 
-class Transforms:
 
-    def __init__(self, images, model):
-        self.images = images
-        self.model = model
+class Vectors:
+    def __init__(self, paths):
+        self.bm = VGG19(weights='imagenet')
+        self.model = Model(inputs=self.bm.input, outputs=self.bm.get_layer('fc1').output)
+        self.paths = paths
+        self.predictions = []
 
-    def vectorize_all(self, px=224, n_dims=512, batch_size=218):
-        print("Will vectorize")
-        min_idx = 0
-        max_idx = min_idx + batch_size
-        total_max = len(self.images)
-        preds = sp.lil_matrix((len(self.images), n_dims))
+    def get_all_vectors(self):
+        for img in self.paths:
+            self.predictions.append(self.get_vector(img))
+        return self.predictions
 
-        print("Total: {}".format(self.images))
-        while min_idx < total_max - 1:
-            print(min_idx)
-            X = np.zeros(((max_idx - min_idx), px, px, 3))
-            # For each file in batch, 
-            # load as row into X
-            i = 0
-            for i in range(min_idx, max_idx):
-                file = self.images[i]
-                try:
-                    img = image.load_img(file, target_size=(px, px))
-                    img_array = image.img_to_array(img)
-                    X[i - min_idx, :, :, :] = img_array
-                except Exception as e:
-                    print(e)
-            max_idx = i
-            X = preprocess_input(X)
-            these_preds = self.model.predict(X)
-            shp = ((max_idx - min_idx) + 1, n_dims)
-            preds[min_idx:max_idx + 1, :] = these_preds.reshape(shp)
-            min_idx = max_idx
-            max_idx = np.min((max_idx + batch_size, total_max))
-        return preds
+    def get_vector(self, path):
+        # read from file
+        img = image.load_img(path, target_size=(224, 224))
+        # make vector
+        x = image.img_to_array(img)
+        # transform vector to one-dimension
+        x = np.expand_dims(x, axis=0)
+        # preprocesing by library
+        x = preprocess_input(x)
+        vec = self.model.predict(x).ravel()
+        return vec
 
+if __name__ == "__main__":
+    Vectors.init()
