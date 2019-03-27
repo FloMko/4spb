@@ -10,12 +10,14 @@ services:
   #     - ./ranking_system/testdata:/testdata
   #   ports:
   #     - 127.0.0.1:5000:5000
-  # api-js:
-  #   build:
-  #     context: ./vk_interaction_obj_rec
-  #     dockerfile: Dockerfile
-  #   command: node VkWall.js
+  api-js:
+    network_mode: host
+    build:
+      context: ./vk_interaction_obj_rec
+      dockerfile: Dockerfile
+    command: node VkWall.js
   mongo-db:
+    network_mode: bridge
     image: mongo:4.0.6
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root

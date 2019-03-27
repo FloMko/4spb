@@ -5,7 +5,13 @@ from flask_api import FlaskAPI, status, exceptions
 import json
 import db_helper
 
+mongourl = 'mongodb://root:rootPassXXX@127.0.0.1:27017/admin'
+database = 'lostpets'
+collection = 'dataset'
+
+
 app = FlaskAPI(__name__)
+db = db_helper.db(mongourl,database,collection)
 
 
 @app.route('/search/',methods=['POST'])
@@ -14,16 +20,11 @@ def search():
     didn't worked yet
     '''
     search_list = list()
-    print("searched data : {}".format(request.get_json()))
     data = request.get_json()
-    response = db_helper.search_record(data)
+    response = db.search_records(data)
     for res in response:
-        if res['response']:
-            print(res['response'])
-            search_list.append(res['response'])
-            print("one:",res)
-    print(search_list)
-    return search_list
+        search_list.append(res)
+    return str(search_list)
 
 
 @app.route('/populate/',methods=['POST'])
@@ -31,11 +32,9 @@ def insert():
     '''
     Get POST json. populate db
     '''
-    print("Posted data : {}".format(request.get_json()))
     data = request.get_json()
-    print(data)
-    data_new = db_helper.read_request(data)
-    res = db_helper.write_record(data_new)
+    # data_new = db.read_request(data)
+    res = db.write_record(data)
     return str(res)
 
 

@@ -1,11 +1,11 @@
 import os
-import ranking_system.codebase.vectorize as vectorize 
-import ranking_system.codebase.cluster as cluster
-import ranking_system.codebase.image_helper as imageHelper
+import vectorize as vectorize
+import cluster as cluster
+import image_helper as imageHelper
 
 
 
-dataset_path='./ranking_system/dataset/'
+dataset_path='../dataset/'
 images = os.listdir(path=dataset_path)
 
 
@@ -23,9 +23,7 @@ dist, indices = cl.find_nearest(predictions[21])
 simular_images = cl.get_similar_images(images, dist, indices)
 
 
-
-
-
-# Help to reload module
-import importlib
-importlib.reload(ranking_system.codebase.cluster)
+print(simular_images)
+# # Help to reload module
+# import importlib
+# importlib.reload(ranking_system.codebase.cluster)

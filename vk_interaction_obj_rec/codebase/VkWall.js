@@ -11,7 +11,7 @@ var IN = require("./imageNetClasses.js")
 const _ = require('underscore');
 const { Image, createCanvas, loadImage } = require('canvas')
 //
-var url = 'http://api-python:5000' // url базы данных Максима
+var url = 'http://127.0.0.1:5000' // url базы данных Максима
 var BOT_TOKEN = process.env.BOT_TOKEN
 var DATA = {}
 

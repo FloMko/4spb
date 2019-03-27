@@ -11,7 +11,6 @@ class Cluster:
         self.knn.fit(self.predictions)
         print('Init cluster')
 
-
     def find_nearest(self, prediction,n_neighbors=218):
         '''
         get vector
