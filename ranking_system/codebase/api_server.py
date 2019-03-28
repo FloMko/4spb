@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-from flask import request, url_for
+from flask import request, Response
 #from flask_cors import CORS
 from flask_api import FlaskAPI, status, exceptions
-import json
+from bson import json_util, ObjectId
 import db_helper
+
 
 mongourl = 'mongodb://root:rootPassXXX@127.0.0.1:27017/admin'
 database = 'lostpets'
@@ -13,19 +14,19 @@ collection = 'dataset'
 app = FlaskAPI(__name__)
 db = db_helper.db(mongourl,database,collection)
 
+def toJson(data):
+    """Convert Mongo object(s) to JSON"""
+    return json.dumps(data, default=json_util.default)
 
 @app.route('/search/',methods=['POST'])
 def search():
     '''
-    didn't worked yet
+    get request, search in db for data
     '''
     search_list = list()
     data = request.get_json()
     response = db.search_records(data)
-    for res in response:
-        search_list.append(res)
-    return str(search_list)
-
+    return json_util.dumps(response)
 
 @app.route('/populate/',methods=['POST'])
 def insert():
