@@ -14,6 +14,7 @@ collection = 'dataset'
 app = FlaskAPI(__name__)
 db = db_helper.db(mongourl,database,collection)
 
+
 def toJson(data):
     """Convert Mongo object(s) to JSON"""
     return json.dumps(data, default=json_util.default)
