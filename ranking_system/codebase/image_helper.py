@@ -2,17 +2,34 @@
 import cv2
 # for basic load/save
 import os
+import requests
+import shutil
+
 
 class Helper:
-    '''
-    for resiuzing image for imagenet
+    """
+    for resizing image for imagenet
     fixing path to dynamic directory
-    '''
-    def __init__(self, images, dataset_path):
+    """
+    def __init__(self, photo_urls, dataset_path):
         self.dataset_path = dataset_path
-        self.images = images
+        self.photo_urls = photo_urls
+        self.images = []
         self.paths = []
         print('init helper')
+
+    def download_images(self):
+        """
+        download images
+        :return: self.images
+        """
+        for photo_url in self.photo_urls:
+            response = requests.get(photo_url, stream=True)
+            with open(self.dataset_path + photo_url.split('/')[-1], 'wb') as out_file:
+                shutil.copyfileobj(response.raw, out_file)
+            del response
+        self.images = os.listdir(path=self.dataset_path)
+        print('Photos downloaded!')
 
     def resize(self, dim=(224,224)):
         for image in self.paths:
@@ -25,12 +42,9 @@ class Helper:
             print('resized Dimensions : ',img.shape)
 
     def fix_path(self):
-        '''
+        """
         return formated path, images list
-        '''
+        """
         for img in self.images:
             self.paths.append(self.dataset_path + img)
         return self.paths
-
-if __name__ == "__main__":
-    Helper.init()

@@ -1,25 +1,31 @@
 import os
 import vectorize as vectorize
 import cluster as cluster
+
+
 import image_helper as imageHelper
+import db_helper as db
+import db_transform as trans
+
+tr = trans.transform()
+photos_url = tr.main()
 
 
-
-dataset_path='../dataset/'
-images = os.listdir(path=dataset_path)
-
-
-
-imhelp = imageHelper.Helper(images,dataset_path)
+# prepare dataset for cluster
+dataset_path='../dataset2/'
+imhelp = imageHelper.Helper(photos_url,dataset_path)
+imhelp.download_images()
+images = imhelp.images
 paths = imhelp.fix_path()
 imhelp.resize()
 
-
+# prepare cluster
 vec = vectorize.Vectors(paths)
 predictions = vec.get_all_vectors()
-cl = cluster.Cluster(predictions) 
+cl = cluster.Cluster(predictions)
 
-dist, indices = cl.find_nearest(predictions[21])
+# how-to find image
+dist, indices = cl.find_nearest(predictions[20])
 simular_images = cl.get_similar_images(images, dist, indices)
 
 

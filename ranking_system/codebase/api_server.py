@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-from flask import request, Response
-#from flask_cors import CORS
-from flask_api import FlaskAPI, status, exceptions
-from bson import json_util, ObjectId
+from flask import request
+from flask_api import FlaskAPI
+from bson import json_util
 import db_helper
 
 
@@ -22,7 +21,6 @@ def search():
     """
     get request, search in db for data
     """
-    search_list = list()
     data = request.get_json()
     response = db.search_records(data)
     return json_util.dumps(response)
@@ -42,7 +40,6 @@ def search_trans():
     """
     get request, search in db for data
     """
-    search_list = list()
     data = request.get_json()
     response = db_new.search_records(data)
     return json_util.dumps(response)
