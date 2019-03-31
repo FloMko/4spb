@@ -12,8 +12,8 @@ collection_new= 'datastore'
 
 
 app = FlaskAPI(__name__)
-db = db_helper.db(mongourl,database,collection)
-db_new = db_helper.db(mongourl,database,collection_new)
+db = db_helper.Db(mongourl,database,collection)
+db_new = db_helper.Db(mongourl,database,collection_new)
 
 
 @app.route('/search/',methods=['POST'])
@@ -54,7 +54,15 @@ def insert_trans():
     res = db_new.write_record(data)
     return str(res)
 
-
+@app.route('/find_image/', methods=['POST'])
+def find_image_trans():
+    """
+    get json with 'photo' : %photo_name%
+    :return: search results
+    """
+    data = request.get_json()
+    response = db_new.search_records({'photos_name':{'$elemMatch':{'$in':[data['photo']]}}})
+    return json_util.dumps(response)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)

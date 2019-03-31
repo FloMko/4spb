@@ -2,9 +2,9 @@ import requests
 import ast
 
 
-class transform():
+class Transform():
     """
-    Class for transfor db from front
+    Class for transform db from front
     """
 
     def __init__(self):

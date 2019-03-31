@@ -1,12 +1,6 @@
 import pymongo
-from bson import json_util
-import json
 
-
-# def connect():
-# Connect to db, return obj of connection
-
-class db():
+class Db():
     def __init__(self, mongourl, database, collection):
         self.client = pymongo.mongo_client.MongoClient(mongourl)
         self.db = self.client[database]

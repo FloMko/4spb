@@ -1,19 +1,18 @@
-import os
+
 import vectorize as vectorize
 import cluster as cluster
 
 
-import image_helper as imageHelper
-import db_helper as db
+import image_helper as imagehelper
 import db_transform as trans
 
-tr = trans.transform()
+tr = trans.Transform()
 photos_url = tr.main()
 
 
 # prepare dataset for cluster
 dataset_path='../dataset2/'
-imhelp = imageHelper.Helper(photos_url,dataset_path)
+imhelp = imagehelper.Helper(photos_url,dataset_path)
 imhelp.download_images()
 images = imhelp.images
 paths = imhelp.fix_path()
