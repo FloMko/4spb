@@ -62,7 +62,7 @@ class Transform():
         data_new = self.transform_data(data)
         return (self.get_photos_urls(data_new))
     # return data_new
-    # populate_data(data_new)
+        populate_data(data_new)
 
 # how-to build db schema
 # vk_wall_identificator = 'https://vk.com/wall'+'owner_id' + '_' + 'id'

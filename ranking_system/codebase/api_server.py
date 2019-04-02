@@ -5,64 +5,71 @@ from bson import json_util
 import db_helper
 
 
-mongourl = 'mongodb://root:rootPassXXX@127.0.0.1:27017/admin'
-database = 'lostpets'
-collection = 'dataset'
-collection_new= 'datastore'
+class Api():
+    """
+    class for rest interaction
+    """
+    def __init__(self):
+        mongourl = 'mongodb://root:rootPassXXX@127.0.0.1:27017/admin'
+        database = 'lostpets'
+        collection = 'dataset'
+        collection_new = 'datastore'
+        self.db = db_helper.Db(mongourl, database, collection)
+        self.db_new = db_helper.Db(mongourl, database, collection_new)
+        self.app = FlaskAPI(__name__)
+        self.app.add_url_rule("/search/","search", self.search, methods=['POST'])
+        self.app.add_url_rule("/populate/","populate", self.insert, methods=['POST'])
+        self.app.add_url_rule("/search_trans/","search_trans", self.search_trans, methods=['POST'])
+        self.app.add_url_rule("/populate_trans/","populate_trans", self.insert_trans, methods=['POST'])
+        self.app.add_url_rule("/find_image/","find_image", self.find_image_trans, methods=['POST'])
 
 
-app = FlaskAPI(__name__)
-db = db_helper.Db(mongourl,database,collection)
-db_new = db_helper.Db(mongourl,database,collection_new)
+    def search(self):
+        """
+        get request, search in db for data
+        """
+        data = request.get_json()
+        response = self.db.search_records(data)
+        return json_util.dumps(response)
+
+    def insert(self):
+        """
+        Get POST json. populate db
+        """
+        data = request.get_json()
+        # data_new = db.read_request(data)
+        res = self.db.write_record(data)
+        return str(res)
+
+    def search_trans(self):
+        """
+        get request, search in db for data
+        """
+        data = request.get_json()
+        response = self.db_new.search_records(data)
+        return json_util.dumps(response)
+
+    def insert_trans(self):
+        """
+        Get POST json. populate db
+        """
+        data = request.get_json()
+        res = self.db_new.write_record(data)
+        return str(res)
+
+    def find_image_trans(self):
+        """
+        get json with 'photo' : %photo_name%
+        :return: search results
+        """
+        data = request.get_json()
+        response = self.db_new.search_records({'photos_name':{'$elemMatch':{'$in':[data['photo']]}}})
+        return json_util.dumps(response)
 
 
-@app.route('/search/',methods=['POST'])
-def search():
-    """
-    get request, search in db for data
-    """
-    data = request.get_json()
-    response = db.search_records(data)
-    return json_util.dumps(response)
 
-@app.route('/populate/',methods=['POST'])
-def insert():
-    """
-    Get POST json. populate db
-    """
-    data = request.get_json()
-    # data_new = db.read_request(data)
-    res = db.write_record(data)
-    return str(res)
 
-@app.route('/search_trans/',methods=['POST'])
-def search_trans():
-    """
-    get request, search in db for data
-    """
-    data = request.get_json()
-    response = db_new.search_records(data)
-    return json_util.dumps(response)
-
-@app.route('/populate_trans/',methods=['POST'])
-def insert_trans():
-    """
-    Get POST json. populate db
-    """
-    data = request.get_json()
-    # data_new = db.read_request(data)
-    res = db_new.write_record(data)
-    return str(res)
-
-@app.route('/find_image/', methods=['POST'])
-def find_image_trans():
-    """
-    get json with 'photo' : %photo_name%
-    :return: search results
-    """
-    data = request.get_json()
-    response = db_new.search_records({'photos_name':{'$elemMatch':{'$in':[data['photo']]}}})
-    return json_util.dumps(response)
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', debug=True)
+    api = Api()
+    api.app.run(host='0.0.0.0', debug=True)
