@@ -11,12 +11,13 @@ photos_url = tr.main()
 
 
 # prepare dataset for cluster
-dataset_path='../dataset2/'
+dataset_path='../dataset/'
 imhelp = imagehelper.Helper(photos_url,dataset_path)
 imhelp.download_images()
 images = imhelp.images
 paths = imhelp.fix_path()
-imhelp.resize()
+for path in paths:
+    imhelp.resize(path)
 
 # prepare cluster
 vec = vectorize.Vectors(paths)

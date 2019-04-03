@@ -46,7 +46,7 @@ class Transform():
 
     def populate_data(self, data):
         for req in data:
-            res = requests.post(pop_url, json=data[req])
+            res = requests.post(self.pop_url, json=data[req])
         return res
 
     def get_photos_urls(self, data):
@@ -60,9 +60,9 @@ class Transform():
     def main(self):
         data = self.get_old_db()
         data_new = self.transform_data(data)
-        return (self.get_photos_urls(data_new))
     # return data_new
-        populate_data(data_new)
+        self.populate_data(data_new)
+        return self.get_photos_urls(data_new)
 
 # how-to build db schema
 # vk_wall_identificator = 'https://vk.com/wall'+'owner_id' + '_' + 'id'

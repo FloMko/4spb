@@ -31,11 +31,10 @@ class Helper:
         self.images = os.listdir(path=self.dataset_path)
         print('Photos downloaded!')
 
-    def resize(self, dim=(224,224)):
-        for image in self.paths:
-            img = cv2.imread(image, cv2.IMREAD_UNCHANGED)
-            resized = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
-            cv2.imwrite(image, resized)
+    def resize(self, path, dim=(224,224)):
+        img = cv2.imread(path, cv2.IMREAD_UNCHANGED)
+        resized = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
+        cv2.imwrite(path, resized)
 
     def fix_path(self):
         """
@@ -44,3 +43,19 @@ class Helper:
         for img in self.images:
             self.paths.append(self.dataset_path + img)
         return self.paths
+
+    def download_image(self):
+        """
+        for download single image
+        :param photo_url: what to download
+        :return:photo_path
+        """
+        response = requests.get(self.photo_urls, stream=True)
+        self.paths = self.dataset_path + self.photo_urls.split('/')[-1]
+        with open(self.paths, 'wb') as out_file:
+            shutil.copyfileobj(response.raw, out_file)
+        del response
+        return self.paths
+
+    def remove_image(self, photo_path):
+        os.remove(photo_path)
