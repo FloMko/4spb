@@ -5,7 +5,7 @@ from bson import json_util
 import db_helper
 import vectorize as vectorize
 import image_helper as imagehelper
-import vectorize as vectorize
+import cluster as cluster
 
 
 
@@ -14,12 +14,14 @@ class Api():
     """
     class for rest interaction
     """
-    def __init__(self, cluster):
+    def __init__(self):
         mongourl = 'mongodb://root:rootPassXXX@127.0.0.1:27017/admin'
         database = 'lostpets'
         collection = 'dataset'
         collection_new = 'datastore'
-        self.cluster = cluster
+        self.dataset_path = '../dataset/'
+        self.cluster = cluster.Cluster()
+        self.vec = vectorize.Vectors()
         self.db = db_helper.Db(mongourl, database, collection)
         self.db_new = db_helper.Db(mongourl, database, collection_new)
         self.app = FlaskAPI(__name__)
@@ -28,6 +30,7 @@ class Api():
         self.app.add_url_rule("/search_trans/","search_trans", self.search_trans, methods=['POST'])
         self.app.add_url_rule("/populate_trans/","populate_trans", self.insert_trans, methods=['POST'])
         self.app.add_url_rule("/find_image/","find_image", self.find_image, methods=['POST'])
+        self.app.add_url_rule("/load_knn/", "load_cluster", self.load_cluster, methods=['POST'])
         print("init api")
 
 
@@ -69,15 +72,25 @@ class Api():
         :return: search results
         https://pp.userapi.com/c851216/v851216826/efbc4/pnz7eaWD3b8.jpg
         """
+        response = []
+        self.cluster.load()
         data = request.get_json()
         print(data['photo'])
-        imhelp = imagehelper.Helper(photo_urls=data['photo'], dataset_path='../tmpdata/')
-        imhelp.download_image()
-        image = imhelp.images
-        imhelp.resize(image)
-        # response = self.db_new.search_records({'photos_name':{'$elemMatch':{'$in':[data['photo']]}}})
-        # return json_util.dumps(response)
+        imhelp = imagehelper.Helper(dataset_path='../tmpdata/')
+        path = imhelp.download_image(photo_url=data['photo'])
+        imhelp.resize(path)
+        vect = self.vec.get_vector(path)
+        dist, indices = self.cluster.find_nearest(vect)
+        images = imagehelper.Helper(self.dataset_path).get_images()
+        near = self.cluster.get_similar_images(images, dist,indices)
+        for photo in near[:5]:
+            response.append(self.db_new.search_records({'photos_name':{'$elemMatch':{'$in':[data['photo']]}}}))
+        return json_util.dumps(response)
+
+    def load_cluster(self):
+        self.cluster.load()
+        return "cluster loaded"
 
 if __name__ == "__main__":
-    api = Api(cluster='')
+    api = Api()
     api.app.run(host='0.0.0.0', debug=True)

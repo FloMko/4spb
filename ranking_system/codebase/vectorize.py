@@ -11,20 +11,18 @@ class Vectors:
     '''
     for CNN network
     '''
-    def __init__(self, paths):
+    def __init__(self):
         self.bm = VGG19(weights='imagenet')
         self.model = Model(inputs=self.bm.input, outputs=self.bm.get_layer('fc1').output)
-        self.paths = paths
-        self.predictions = []
 
-    def get_all_vectors(self):
+    def get_all_vectors(self, paths):
         '''
         iterate over dataset
         return preprocessed vectors
         '''
-        for img in self.paths:
-            self.predictions.append(self.get_vector(img))
-        return self.predictions
+        for img in paths:
+            predictions.append(self.get_vector(img))
+        return predictions
 
     def get_vector(self, path):
         '''

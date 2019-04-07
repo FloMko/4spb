@@ -11,23 +11,23 @@ class Helper:
     for resizing image for imagenet
     fixing path to dynamic directory
     """
-    def __init__(self, photo_urls, dataset_path):
+    def __init__(self, dataset_path):
         self.dataset_path = dataset_path
-        self.photo_urls = photo_urls
         self.images = []
         self.paths = []
         self.fix_path()
         print('init helper')
 
     def get_images(self):
-            self.images = os.listdir(self.dataset_path)
+        self.images = os.listdir(self.dataset_path)
+        return self.images
 
-    def download_images(self):
+    def download_images(self, photo_urls):
         """
         download images
         :return: self.images
         """
-        for photo_url in self.photo_urls:
+        for photo_url in photo_urls:
             response = requests.get(photo_url, stream=True)
             with open(self.dataset_path + photo_url.split('/')[-1], 'wb') as out_file:
                 shutil.copyfileobj(response.raw, out_file)
@@ -59,6 +59,7 @@ class Helper:
         with open(path, 'wb') as out_file:
             shutil.copyfileobj(response.raw, out_file)
         del response
+        return path
         print(path+ ' Have been download')
 
     def remove_image(self, photo_path):
