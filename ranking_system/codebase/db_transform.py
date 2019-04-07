@@ -1,5 +1,4 @@
-import requests
-import ast
+import db_helper
 
 
 class Transform():
@@ -8,16 +7,20 @@ class Transform():
     """
 
     def __init__(self):
-        self.search_url = 'http://127.0.0.1:5000/search/'
-        self.pop_url = 'http://127.0.0.1:5000/populate_trans/'
+        mongourl = 'mongodb://root:rootPassXXX@127.0.0.1:27017/admin'
+        database = 'lostpets'
+        collection = 'dataset'
+        collection_new = 'datastore'
+        self.db = db_helper.Db(mongourl, database, collection)
+        self.db_new = db_helper.Db(mongourl, database, collection_new)
+        self.photos_urls = []
 
     def get_old_db(self):
         """
         make request to database
         :return: data
         """
-        req = requests.post(self.search_url, json={})
-        data = ast.literal_eval(req.text)
+        data = self.db.search_records({})
         data_new = data[0]['response']['items']
         return data_new
 
@@ -46,21 +49,25 @@ class Transform():
 
     def populate_data(self, data):
         for req in data:
-            res = requests.post(self.pop_url, json=data[req])
-        return res
+            self.db_new.write_record(data[req])
 
     def get_photos_urls(self, data):
-        photos_list = []
+        '''
+        extract urls from data
+        :param data: prepared im-memore ob
+        :return: list of all urls from obj
+        '''
+        photos_urls = []
         for record in data:
             for photo in data[record]['photos_url']:
-                photos_list.append(photo)
-        return photos_list
+                photos_urls.append(photo)
+        self.photos_urls = photos_urls
+        return self.photos_urls
 
 
     def main(self):
         data = self.get_old_db()
         data_new = self.transform_data(data)
-    # return data_new
         self.populate_data(data_new)
         return self.get_photos_urls(data_new)
 

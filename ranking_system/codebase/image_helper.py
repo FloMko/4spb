@@ -16,7 +16,11 @@ class Helper:
         self.photo_urls = photo_urls
         self.images = []
         self.paths = []
+        self.fix_path()
         print('init helper')
+
+    def get_images(self):
+            self.images = os.listdir(self.dataset_path)
 
     def download_images(self):
         """
@@ -38,24 +42,24 @@ class Helper:
 
     def fix_path(self):
         """
-        return formated path, images list
+        help fix paths for all images in dataset_path
         """
+        self.get_images()
         for img in self.images:
             self.paths.append(self.dataset_path + img)
-        return self.paths
 
-    def download_image(self):
+    def download_image(self, photo_url):
         """
         for download single image
         :param photo_url: what to download
         :return:photo_path
         """
-        response = requests.get(self.photo_urls, stream=True)
-        self.paths = self.dataset_path + self.photo_urls.split('/')[-1]
-        with open(self.paths, 'wb') as out_file:
+        response = requests.get(photo_url, stream=True)
+        path = self.dataset_path + photo_url.split('/')[-1]
+        with open(path, 'wb') as out_file:
             shutil.copyfileobj(response.raw, out_file)
         del response
-        return self.paths
+        print(path+ ' Have been download')
 
     def remove_image(self, photo_path):
         os.remove(photo_path)

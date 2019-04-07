@@ -5,6 +5,8 @@ from bson import json_util
 import db_helper
 import vectorize as vectorize
 import image_helper as imagehelper
+import vectorize as vectorize
+
 
 
 
@@ -26,6 +28,7 @@ class Api():
         self.app.add_url_rule("/search_trans/","search_trans", self.search_trans, methods=['POST'])
         self.app.add_url_rule("/populate_trans/","populate_trans", self.insert_trans, methods=['POST'])
         self.app.add_url_rule("/find_image/","find_image", self.find_image, methods=['POST'])
+        print("init api")
 
 
     def search(self):
@@ -41,7 +44,6 @@ class Api():
         Get POST json. populate db
         """
         data = request.get_json()
-        # data_new = db.read_request(data)
         res = self.db.write_record(data)
         return str(res)
 
@@ -75,10 +77,6 @@ class Api():
         imhelp.resize(image)
         # response = self.db_new.search_records({'photos_name':{'$elemMatch':{'$in':[data['photo']]}}})
         # return json_util.dumps(response)
-
-
-
-
 
 if __name__ == "__main__":
     api = Api(cluster='')
