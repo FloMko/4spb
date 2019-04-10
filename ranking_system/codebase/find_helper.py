@@ -39,7 +39,7 @@ class Find():
         response = []
         for photo in near[:5]:
             print(photo)
-            response.append(self.db_new.search_records({'photos_name': {'$elemMatch': {'$in': [photo]}}}))
+            response.append(self.db_new.search_records({'photos_name': {'$elemMatch': {'$in': [photo[0]]}}}))
         return response
 
 
