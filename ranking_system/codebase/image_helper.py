@@ -4,6 +4,8 @@ import cv2
 import os
 import requests
 import shutil
+# logging
+import logging
 
 
 class Helper:
@@ -59,8 +61,8 @@ class Helper:
         with open(path, 'wb') as out_file:
             shutil.copyfileobj(response.raw, out_file)
         del response
+        logging.debug(path+' Have been download')
         return path
-        print(path+ ' Have been download')
 
     def remove_image(self, photo_path):
         os.remove(photo_path)

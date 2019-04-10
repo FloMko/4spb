@@ -39,7 +39,14 @@ class Find():
         response = []
         for photo in near[:5]:
             print(photo)
-            response.append(self.db_new.search_records({'photos_name': {'$elemMatch': {'$in': [photo[0]]}}}))
+            response.append([self.db_new.search_record({'photos_name': {'$elemMatch': {'$in': [photo[0]]}}}), str(photo[1])])
+        return response
+
+    def format_record(self, records):
+        response = []
+        for record in records:
+            response.append('https://vk.com/wall'+str(record[0]['ownerid'])+'_'+str(record[0]['postid']) + ' score='+
+                            str(record[1]))
         return response
 
 
@@ -47,4 +54,10 @@ class Find():
         self.cluster.load()
         path = self.prepare_image(photo)
         near = self.vector_image(path)
-        return self.get_records(near)
+        imagehelper.Helper(dataset_path='../tmpdata/').remove_image(path)
+        logging.debug(path+"removed")
+        records = self.get_records(near)
+        return self.format_record(records)
+
+    # how-to build db schema
+    # vk_wall_identificator = 'https://vk.com/wall'+'owner_id' + '_' + 'id'

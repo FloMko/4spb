@@ -29,7 +29,6 @@ class Api():
         self.app.add_url_rule("/search_trans/","search_trans", self.search_trans, methods=['POST'])
         self.app.add_url_rule("/populate_trans/","populate_trans", self.insert_trans, methods=['POST'])
         self.app.add_url_rule("/find_image/","find_image", self.find_image, methods=['POST'])
-        self.app.add_url_rule("/load_knn/", "load_cluster", self.load_cluster, methods=['POST'])
         print("init api")
 
 
@@ -78,11 +77,6 @@ class Api():
             return json_util.dumps(response)
         except Exception as e:
             logging.error(traceback.format_exc())
-
-
-    def load_cluster(self):
-        self.cluster.load()
-        print("cluster loaded")
 
 if __name__ == "__main__":
     Api().app.run(host='0.0.0.0', debug=False, threaded=False)

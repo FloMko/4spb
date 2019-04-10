@@ -39,7 +39,6 @@ class Vectors:
         x = np.expand_dims(x, axis=0)
         # preprocesing by library
         x = preprocess_input(x)
-        print(x)
         vec = self.model.predict(x)
         vec = vec.ravel()
         return vec
