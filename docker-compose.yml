@@ -1,23 +1,23 @@
 version: '2.2'
 services:
-  # api-python:
-  #   build:
-  #     context: ./ranking_system
-  #     dockerfile: Dockerfile
-  #   command: python /codebase/api_server.py
-  #   volumes:
-  #     - ./ranking_system/dataset:/dataset
-  #     - ./ranking_system/testdata:/testdata
-  #   ports:
-  #     - 127.0.0.1:5000:5000
+#  api-python:
+#    build:
+#      context: ./ranking_system
+#      dockerfile: Dockerfile
+#    command: python3 /codebase/api_server.py
+#    volumes:
+#      - ./ranking_system/dataset:/dataset
+#      - ./ranking_system/tmpdata:/tmpdata
+#      - ./ranking_system/cluster:/cluster
+#      - /home/flomko/.keras:/root/.keras:ro
+#    ports:
+#      - 127.0.0.1:5000:5000
   api-js:
-    network_mode: host
     build:
       context: ./vk_interaction_obj_rec
       dockerfile: Dockerfile
     command: node VkWall.js
   mongo-db:
-    network_mode: bridge
     image: mongo:4.0.6
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root

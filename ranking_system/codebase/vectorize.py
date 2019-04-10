@@ -14,12 +14,14 @@ class Vectors:
     def __init__(self):
         self.bm = VGG19(weights='imagenet')
         self.model = Model(inputs=self.bm.input, outputs=self.bm.get_layer('fc1').output)
+        print("Init model")
 
     def get_all_vectors(self, paths):
         '''
         iterate over dataset
         return preprocessed vectors
         '''
+        predictions=[]
         for img in paths:
             predictions.append(self.get_vector(img))
         return predictions
@@ -37,7 +39,9 @@ class Vectors:
         x = np.expand_dims(x, axis=0)
         # preprocesing by library
         x = preprocess_input(x)
-        vec = self.model.predict(x).ravel()
+        print(x)
+        vec = self.model.predict(x)
+        vec = vec.ravel()
         return vec
 
 if __name__ == "__main__":
