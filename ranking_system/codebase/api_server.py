@@ -11,7 +11,7 @@ import logging
 
 
 
-class Api():
+class Api:
     """
     class for rest interaction
     """
@@ -29,7 +29,7 @@ class Api():
         self.app.add_url_rule("/search_trans/","search_trans", self.search_trans, methods=['POST'])
         self.app.add_url_rule("/populate_trans/","populate_trans", self.insert_trans, methods=['POST'])
         self.app.add_url_rule("/find_image/","find_image", self.find_image, methods=['POST'])
-        print("init api")
+        logging.debug('Api has been initialized')
 
 
     def search(self):
@@ -75,8 +75,9 @@ class Api():
             data = request.get_json()
             response = self.find.main(data['photo'])
             return json_util.dumps(response)
-        except Exception as e:
+        except Exception:
             logging.error(traceback.format_exc())
 
 if __name__ == "__main__":
+    logging.getLogger().setLevel(logging.DEBUG)
     Api().app.run(host='0.0.0.0', debug=False, threaded=False)

@@ -15,10 +15,11 @@ class Helper:
     """
     def __init__(self, dataset_path):
         self.dataset_path = dataset_path
-        self.images = []
+        self.images = self.get_images()
         self.paths = []
         self.fix_path()
-        print('init helper')
+        logging.debug('Image helper has been initialized')
+
 
     def get_images(self):
         self.images = os.listdir(self.dataset_path)
@@ -35,7 +36,7 @@ class Helper:
                 shutil.copyfileobj(response.raw, out_file)
             del response
         self.images = os.listdir(path=self.dataset_path)
-        print('Photos downloaded!')
+        logging.debug('All photos has been downloaded')
 
     def resize(self, path, dim=(224,224)):
         img = cv2.imread(path, cv2.IMREAD_UNCHANGED)
@@ -61,8 +62,9 @@ class Helper:
         with open(path, 'wb') as out_file:
             shutil.copyfileobj(response.raw, out_file)
         del response
-        logging.debug(path+' Have been download')
+        logging.debug(path+' Has been downloaded')
         return path
 
     def remove_image(self, photo_path):
         os.remove(photo_path)
+        logging.debug(photo_path + ' Has been removed')

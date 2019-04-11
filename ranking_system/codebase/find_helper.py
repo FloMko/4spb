@@ -5,8 +5,7 @@ import db_helper
 import logging
 
 
-
-class Find():
+class Find:
     """
     helper for search image process
     """
@@ -25,7 +24,6 @@ class Find():
         imhelp = imagehelper.Helper(dataset_path='../tmpdata/')
         path = imhelp.download_image(photo_url=photo)
         imhelp.resize(path)
-        logging.debug(path + ' have been download')
         return path
 
     def vector_image(self, path):
@@ -38,14 +36,14 @@ class Find():
     def get_records(self, near):
         response = []
         for photo in near[:5]:
-            print(photo)
-            response.append([self.db_new.search_record({'photos_name': {'$elemMatch': {'$in': [photo[0]]}}}), str(photo[1])])
+            response.append([self.db_new.search_record({'photos_name': {'$elemMatch': {'$in': [photo[0]]}}}),
+                             str(photo[1])])
         return response
 
     def format_record(self, records):
         response = []
         for record in records:
-            response.append('https://vk.com/wall'+str(record[0]['ownerid'])+'_'+str(record[0]['postid']) + ' score='+
+            response.append('https://vk.com/wall'+str(record[0]['ownerid'])+'_'+str(record[0]['postid']) + ' score: '+
                             str(record[1]))
         return response
 
@@ -55,9 +53,10 @@ class Find():
         path = self.prepare_image(photo)
         near = self.vector_image(path)
         imagehelper.Helper(dataset_path='../tmpdata/').remove_image(path)
-        logging.debug(path+"removed")
         records = self.get_records(near)
-        return self.format_record(records)
+        response = self.format_record(records)
+        logging.debug('For search req: ' + photo + ' have been find: ' + ' '.join(response))
+        return response
 
     # how-to build db schema
     # vk_wall_identificator = 'https://vk.com/wall'+'owner_id' + '_' + 'id'

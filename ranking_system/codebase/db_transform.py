@@ -1,7 +1,7 @@
 import db_helper
+import logging
 
-
-class Transform():
+class Transform:
     """
     Class for transform db from front
     """
@@ -52,11 +52,11 @@ class Transform():
             self.db_new.write_record(data[req])
 
     def get_photos_urls(self, data):
-        '''
+        """
         extract urls from data
         :param data: prepared im-memore ob
         :return: list of all urls from obj
-        '''
+        """
         photos_urls = []
         for record in data:
             for photo in data[record]['photos_url']:
@@ -69,6 +69,7 @@ class Transform():
         data = self.get_old_db()
         data_new = self.transform_data(data)
         self.populate_data(data_new)
+        logging.debug('database has been populated')
         return self.get_photos_urls(data_new)
 
 # how-to build db schema

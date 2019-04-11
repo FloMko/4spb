@@ -9,7 +9,6 @@ services:
 #      - ./ranking_system/dataset:/dataset
 #      - ./ranking_system/tmpdata:/tmpdata
 #      - ./ranking_system/cluster:/cluster
-#      - /home/flomko/.keras:/root/.keras:ro
 #    ports:
 #      - 127.0.0.1:5000:5000
   api-js:
