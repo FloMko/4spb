@@ -9,19 +9,33 @@ services:
       - ./ranking_system/dataset:/dataset
       - ./ranking_system/tmpdata:/tmpdata
       - ./ranking_system/cluster:/cluster
+      - /home/flomko/.keras:/root/.keras:ro
     ports:
     - 127.0.0.1:5000:5000
+    networks:
+      - lostpet
   api-js:
-    network_mode: host
+#    network_mode: host
     build:
       context: ./vk_interaction_obj_rec
       dockerfile: Dockerfile
     command: node VkWall.js
+    networks:
+      - lostpet
   mongo-db:
-    network_mode: bridge
+#    network_mode: bridge
     image: mongo:4.0.6
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=rootPassXXX
     ports:
     - 127.0.0.1:27017:27017
+    networks:
+      - lostpet
+
+
+networks:
+  lostpet:
+    driver: bridge
+    ipam:
+      driver: default

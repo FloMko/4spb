@@ -3,6 +3,7 @@ import ast
 
 # functional module
 import codebase.db_helper as db_helper
+# import codebase.find_helper as findhelper
 
 # use logging
 import logging
@@ -24,7 +25,7 @@ class ApiTest(unittest.TestCase):
     #     self.api_find_image_url = 'http://127.0.0.1:5000/find_image/'
 
     def test_old_database_init(self, ):
-        """check connection to db"""
+        """check connection to old db"""
         print("id: " + self.id())
         mongourl = 'mongodb://root:rootPassXXX@127.0.0.1:27017/admin'
         database = 'lostpets'
@@ -35,7 +36,7 @@ class ApiTest(unittest.TestCase):
             dict)
 
     def test_new_database_init(self, ):
-        """check connection to db"""
+        """check connection to new db"""
         print("id: " + self.id())
         mongourl = 'mongodb://root:rootPassXXX@127.0.0.1:27017/admin'
         database = 'lostpets'
@@ -45,6 +46,17 @@ class ApiTest(unittest.TestCase):
             new_db.search_record({}),
             dict)
 
+    def test_init_api_search(self, ):
+        """ check connection through api to db"""
+        print("id: " + self.id())
+        try:
+            self.assertEqual(
+                requests.post('http://127.0.0.1:5000/search/', json={}).status_code,
+                200)
+        except ConnectionResetError:
+            logging.debug('error connect')
+        pass
+
     def test_init_api(self, ):
         """ return right status code"""
         print("id: " + self.id())
@@ -53,7 +65,7 @@ class ApiTest(unittest.TestCase):
                 requests.post('http://127.0.0.1:5000/find_image/',
                               'https://sun9-12.userapi.com/c850232/v850232199/122ff9/LYV4oeT3L3U.jpg').status_code,
                 500)
-        except ConnectionError:
+        except ConnectionResetError:
             logging.debug('error connect')
         pass
 
