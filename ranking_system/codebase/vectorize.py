@@ -1,4 +1,5 @@
 import numpy as np
+
 from keras.applications import VGG19
 from keras.preprocessing import image
 from keras.engine import Model
@@ -11,7 +12,8 @@ class Vectors:
     """
     def __init__(self):
         self.bm = VGG19(weights='imagenet')
-        self.path_to_model='/home/flomko/.keras/models/vgg19_weights_tf_dim_ordering_tf_kernels.h5'
+        self.path_to_model='home/root/.keras/models/vgg19_weights_tf_dim_ordering_tf_kernels.h5'
+        self.bm.load_weights(path)
         # self.model = Model(inputs=self.bm.input, outputs=self.bm.get_layer('fc1').output)
         self.model = Model(inputs=self.bm.input, outputs=self.bm.output)
         self.model.load_weights(self.path_to_model)
