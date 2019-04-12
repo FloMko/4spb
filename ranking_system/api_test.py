@@ -51,7 +51,7 @@ class ApiTest(unittest.TestCase):
         print("id: " + self.id())
         try:
             self.assertEqual(
-                requests.post('http://127.0.0.1:5000/search/', json={}).status_code,
+                requests.post('http://cc2093dd.ngrok.io/search_trans/', json={}).status_code,
                 200)
         except ConnectionResetError:
             logging.debug('error connect')
@@ -60,14 +60,13 @@ class ApiTest(unittest.TestCase):
     def test_init_api(self, ):
         """ return right status code"""
         print("id: " + self.id())
-        try:
-            self.assertEqual(
-                requests.post('http://127.0.0.1:5000/find_image/',
-                              'https://sun9-12.userapi.com/c850232/v850232199/122ff9/LYV4oeT3L3U.jpg').status_code,
-                500)
-        except ConnectionResetError:
-            logging.debug('error connect')
-        pass
+        images_url = 'http://cc2093dd.ngrok.io/find_image/'
+        self.assertEqual(
+            requests.post(
+                images_url,
+                json={'photo': 'https://pp.userapi.com/c851216/v851216826/efbc4/pnz7eaWD3b8.jpg'}).status_code,
+            200)
+
 
 
 if __name__ == '__main__':

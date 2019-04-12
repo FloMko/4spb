@@ -54,7 +54,7 @@ class Find:
         near = self.vector_image(path)
         imagehelper.Helper(dataset_path='../tmpdata/').remove_image(path)
         records = self.get_records(near)
-        logging.debug('For records: ', records)
+        # logging.debug('For records: ', records)
         response = self.format_record(records)
         logging.debug('For search req: ' + photo + ' have been find: ' + ' '.join(response))
         return response

@@ -16,7 +16,7 @@ class Api:
     class for rest interaction
     """
     def __init__(self):
-        mongourl = 'mongodb://root:rootPassXXX@mongodb:27017/admin'
+        mongourl = 'mongodb://root:rootPassXXX@127.0.0.1:27017/admin'
         database = 'lostpets'
         collection = 'dataset'
         collection_new = 'datastore'
