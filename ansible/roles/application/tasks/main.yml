@@ -1,0 +1,31 @@
+---
+# prepare dir
+- name: Ensure /opt/app/ directory exists
+  action: file path=/opt/appxit state=directory
+
+# copy file for proj
+- name: Copy docker-compose
+  copy:
+    src: ../docker-compose.yml
+    dest: /opt/app/
+
+# copy file for api-py
+- name: Copy docker file
+  copy:
+    src: ../ranking_system/Dockerfile
+    dest: /opt/app/ranking_system/
+- name: Copy files
+  copy:
+    src: ../ranking_system/codebase/
+    dest: /opt/app/ranking_system/
+
+# copy file for api-js
+- name: Copy docker file
+  copy:
+    src: ../vk_interaction_obj_rec/Dockerfile
+    dest: /opt/app/vk_interaction_obj_rec/
+
+- name: Copy files
+  copy:
+    src: ../vk_interaction_obj_rec/codebase/
+    dest: /opt/app/vk_interaction_obj_rec/

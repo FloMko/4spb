@@ -1,0 +1,4 @@
+- hosts: aws
+  roles:
+    - application
+  become: yes
