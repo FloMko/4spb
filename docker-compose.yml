@@ -21,7 +21,8 @@ services:
       context: ./vk_interaction_obj_rec
       dockerfile: Dockerfile
     command: node VkWall.js
-    depends_on: mongo-db
+    depends_on:
+    - mongo-db
 #    networks:
 #      - lostpet
   mongo-db:

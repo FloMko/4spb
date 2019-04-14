@@ -73,6 +73,7 @@ class Api:
         """
         try:
             data = request.get_json()
+            logging.debug(data)
             response = self.find.main(data['photo'])
             return json_util.dumps(response)
         except Exception:

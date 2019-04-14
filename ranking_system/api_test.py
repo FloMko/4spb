@@ -11,11 +11,6 @@ import logging
 import unittest
 
 
-# images_url = 'http://127.0.0.1:5000/find_image/'
-# res = requests.post(images_url, json={'photo': 'https://sun9-12.userapi.com/c850232/v850232199/122ff9/LYV4oeT3L3U.jpg'})
-# data = ast.literal_eval(res.text)
-
-
 class ApiTest(unittest.TestCase):
     """
     check api smoke tests
@@ -23,6 +18,16 @@ class ApiTest(unittest.TestCase):
 
     # def __init__(self):
     #     self.api_find_image_url = 'http://127.0.0.1:5000/find_image/'
+    # @classmethod
+    # def setUpClass(cls):
+    #     """Set up for class"""
+    #     api_server_url = 'https://instar.serveo.net'
+    #     image_url = 'https://pp.userapi.com/c851216/v851216826/efbc4/pnz7eaWD3b8.jpg'
+    #     response = requests.post(
+    #         api_server_url + '/find_image/',
+    #         json={'photo': image_url})
+
+
 
     def test_old_database_init(self, ):
         """check connection to old db"""
@@ -51,24 +56,33 @@ class ApiTest(unittest.TestCase):
         print("id: " + self.id())
         try:
             self.assertEqual(
-                requests.post('http://cc2093dd.ngrok.io/search_trans/', json={}).status_code,
+                requests.post('http://ec2-34-245-226-15.eu-west-1.compute.amazonaws.com:5000/search_trans/', json={}).status_code,
                 200)
         except ConnectionResetError:
             logging.debug('error connect')
         pass
 
+    def test_api(self, ):
+        """ return right res"""
+        print("id: " + self.id())
+        images_url = 'http://ec2-34-245-226-15.eu-west-1.compute.amazonaws.com:5000/find_image/'
+        self.assertIsInstance(
+            requests.post(
+                images_url,
+                json={'photo': 'http://pp.userapi.com/c851216/v851216826/efbc4/pnz7eaWD3b8.jpg'}),
+        requests.models.Response)
+
     def test_init_api(self, ):
         """ return right status code"""
         print("id: " + self.id())
-        images_url = 'http://cc2093dd.ngrok.io/find_image/'
+        images_url = 'http://ec2-34-245-226-15.eu-west-1.compute.amazonaws.com:5000/find_image/'
         self.assertEqual(
             requests.post(
                 images_url,
-                json={'photo': 'https://pp.userapi.com/c851216/v851216826/efbc4/pnz7eaWD3b8.jpg'}).status_code,
+                json={'photo': 'http://pp.userapi.com/c851216/v851216826/efbc4/pnz7eaWD3b8.jpg'}).status_code,
             200)
 
 
-
 if __name__ == '__main__':
-    # logging.getLogger().setLevel(logging.DEBUG)
+    logging.getLogger().setLevel(logging.DEBUG)
     unittest.main()
