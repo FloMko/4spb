@@ -1,4 +1,5 @@
-*dataset/*
-ranking_system/dataset/
+*dataset*
+*__pycache__*
+*cluster*
+*.retry*
 vk_interaction_obj_rec/.env
-ranking_system/testdata/
