@@ -1,16 +1,20 @@
 import db_helper
+# logging
 import logging
+# get config
+import yaml
 
 class Transform:
     """
-    Class for transform db from front
-    """
+        Class for transform db from front
+        """
 
     def __init__(self):
-        mongourl = 'mongodb://root:rootPassXXX@127.0.0.1:27017/admin'
-        database = 'lostpets'
-        collection = 'dataset'
-        collection_new = 'datastore'
+        cfg = yaml.safe_load(open("config.yaml"))
+        mongourl = cfg['mongourl']
+        database = cfg['database']
+        collection = cfg['collection']
+        collection_new = cfg['collection_new']
         self.db = db_helper.Db(mongourl, database, collection)
         self.db_new = db_helper.Db(mongourl, database, collection_new)
         self.photos_urls = []

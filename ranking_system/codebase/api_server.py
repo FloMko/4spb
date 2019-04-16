@@ -2,24 +2,28 @@
 from flask import request
 from flask_api import FlaskAPI
 from bson import json_util
-import db_helper
-import find_helper as findhelper
 # logging
 import traceback
 import logging
+# get config
+import yaml
+# external modules
+import db_helper
+import find_helper as findhelper
 
 
 
 
 class Api:
     """
-    class for rest interaction
-    """
+            class for rest interaction
+            """
     def __init__(self):
-        mongourl = 'mongodb://root:rootPassXXX@127.0.0.1:27017/admin'
-        database = 'lostpets'
-        collection = 'dataset'
-        collection_new = 'datastore'
+        cfg = yaml.safe_load(open("config.yaml"))
+        mongourl = cfg['mongourl']
+        database = cfg['database']
+        collection = cfg['collection']
+        collection_new = cfg['collection_new']
         self.db = db_helper.Db(mongourl, database, collection)
         self.db_new = db_helper.Db(mongourl, database, collection_new)
         self.find = findhelper.Find()

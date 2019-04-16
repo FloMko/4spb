@@ -1,10 +1,15 @@
 # functional module
 import codebase.db_helper as db_helper
+# get config
+import yaml
 
-mongourl = 'mongodb://root:rootPassXXX@127.0.0.1:27017/admin'
-database = 'lostpets'
-collection = 'dataset'
-collection_new = 'datastore'
+cfg = yaml.safe_load(open("../codebase/config.yaml"))
+
+mongourl = cfg['mongourl']
+database = cfg['database']
+collection = cfg['collection']
+collection_new = cfg['collection_new']
+
 new_db = db_helper.Db(mongourl, database, collection_new)
 old_db = db_helper.Db(mongourl, database, collection)
 

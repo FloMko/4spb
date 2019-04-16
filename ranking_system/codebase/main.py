@@ -2,14 +2,17 @@ import vectorize as vectorize
 import cluster as cluster
 import image_helper as imagehelper
 import db_transform as trans
+# get config
+import yaml
 
 tr = trans.Transform()
 photo_urls = tr.main()
 
 # prepare dataset for cluster
 
+cfg = yaml.safe_load(open("config.yaml"))
 
-dataset_path='../dataset/'
+dataset_path = cfg['dataset_path']
 
 imhelp = imagehelper.Helper(dataset_path)
 

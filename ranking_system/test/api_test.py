@@ -5,10 +5,13 @@ import requests
 # use logging
 import logging
 
-# let's test
+# get config
+import yaml
 
-api_url = 'http://ec2-34-245-226-15.eu-west-1.compute.amazonaws.com:5000'
-image_url = 'https://pp.userapi.com/c851216/v851216826/efbc4/pnz7eaWD3b8.jpg'
+cfg = yaml.safe_load(open("../codebase/config.yaml"))
+
+api_url = cfg['api_url']
+image_url = cfg['image_url']
 
 
 def test_init_api_search():
