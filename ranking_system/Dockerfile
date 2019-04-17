@@ -7,4 +7,5 @@ RUN pip3 install pymongo flask Flask Flask-API requests
 # search for rf
 RUN pip3 install keras sklearn tf-estimator-nightly==1.12.0.dev20181208 tf-nightly==1.14.1.dev20190409
 COPY codebase/ /codebase
-CMD ["python3 /codebase/api_server.py"]
+WORKDIR /codebase
+CMD ["python3 api_server.py"]

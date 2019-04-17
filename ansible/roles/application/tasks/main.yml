@@ -1,31 +1,47 @@
 ---
-# prepare dir
-- name: Ensure /opt/app/ directory exists
-  action: file path=/opt/appxit state=directory
+- name: Ensure application directory exists
+  action: file path={{ app_dir }} state=directory
 
-# copy file for proj
 - name: Copy docker-compose
   copy:
     src: ../docker-compose.yml
-    dest: /opt/app/
+    dest: '{{ app_dir }}'
 
-# copy file for api-py
-- name: Copy docker file
+- name: Copy api-py docker file
   copy:
     src: ../ranking_system/Dockerfile
-    dest: /opt/app/ranking_system/
-- name: Copy files
-  copy:
-    src: ../ranking_system/codebase/
-    dest: /opt/app/ranking_system/
+    dest: '{{ app_dir }}/ranking_system/'
 
-# copy file for api-js
-- name: Copy docker file
+- name: Copy api-py files
+  copy:
+    src: ../ranking_system/codebase
+    dest: '{{ app_dir }}/ranking_system/'
+
+- name: Ensure cluster directory exists
+  action: file path={{ app_dir }}/ranking_system{{ cluster_path }} state=directory
+
+- name: Ensure dataset directory exists
+  action: file path={{ app_dir }}/ranking_system{{ dataset_path }} state=directory
+
+- name: Ensure tmp directory exists
+  action: file path={{ app_dir }}/ranking_system{{ temp_path }} state=directory
+
+- name: Copy api-js docker file
   copy:
     src: ../vk_interaction_obj_rec/Dockerfile
-    dest: /opt/app/vk_interaction_obj_rec/
+    dest: '{{ app_dir }}/vk_interaction_obj_rec/'
 
-- name: Copy files
+- name: Copy api-js token file
   copy:
-    src: ../vk_interaction_obj_rec/codebase/
-    dest: /opt/app/vk_interaction_obj_rec/
+    src: ../vk_interaction_obj_rec/.env
+    dest: '{{ app_dir }}/vk_interaction_obj_rec/'
+- name: Copy api-js files
+  copy:
+    src: ../vk_interaction_obj_rec/codebase
+    dest: '{{ app_dir }}/vk_interaction_obj_rec/'
+
+- name: start docker
+  docker_service:
+    build: yes
+    project_src: '{{ app_dir }}'
+    state: present

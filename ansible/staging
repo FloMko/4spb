@@ -1,2 +1,2 @@
 [staging]
-aws	ansible_host=ec2-34-245-226-15.eu-west-1.compute.amazonaws.com
+aws	ansible_host=ec2-34-245-226-15.eu-west-1.compute.amazonaws.com ansible_python_interpreter=/usr/bin/python3
