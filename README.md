@@ -1,8 +1,12 @@
 # 4spb
 search for lost pets 
-whole project builded by docker-compose command:
+## build 
+### local build for project
 docker-compose up -d --build
-# Prereqriement
+###code delivery
+ansible-playbook site.yml -i staging -l gcp
+
+### Prereqriement
 shoudl place .env file in root folder like env.example
 
 moved to https://gitlab.com/flomko/4spb

@@ -1,4 +1,5 @@
-- hosts: aws
+- hosts: all
   roles:
+    - env
     - application
   become: yes
