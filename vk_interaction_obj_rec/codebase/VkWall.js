@@ -11,7 +11,7 @@ function getWall() {
   vk('wall.get', {
     access_token: BOT_TOKEN,
     domain: 'yapoteryalsyaspb',
-    count: 100,
+    count: 50,
   }, true).then(res => {
     sendToDb(res)
   });

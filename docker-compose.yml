@@ -12,7 +12,7 @@ services:
       - ./ranking_system/tmpdata:/tmpdata
       - ./ranking_system/cluster:/cluster
     ports:
-    - 127.0.0.1:5000:5000
+    - 5000:5000
     networks:
       - lostpet
   api-js:
@@ -31,7 +31,7 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=rootPassXXX
     ports:
-    - 127.0.0.1:27017:27017
+    - 27017:27017
     networks:
       - lostpet
 

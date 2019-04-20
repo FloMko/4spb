@@ -10,7 +10,7 @@ import yaml
 
 cfg = yaml.safe_load(open("../codebase/config.yaml"))
 
-api_url = cfg['api_url']
+api_url = cfg['test']['api_url']
 image_url = cfg['image_url']
 
 

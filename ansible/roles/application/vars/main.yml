@@ -1,6 +1,6 @@
 ---
 # vars file for application
-app_dir: /opt/app
-cluster_path: /cluster/knn.joblib.pkl
+app_dir: /opt/4spb
+cluster_path: /cluster/
 dataset_path: /dataset/
 temp_path: /tmpdata/

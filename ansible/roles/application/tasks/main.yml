@@ -40,6 +40,11 @@
     src: ../vk_interaction_obj_rec/codebase
     dest: '{{ app_dir }}/vk_interaction_obj_rec/'
 
+- name: stop docker
+  docker_service:
+    project_src: '{{ app_dir }}'
+    state: absent
+
 - name: start docker
   docker_service:
     build: yes

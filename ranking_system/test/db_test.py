@@ -5,7 +5,7 @@ import yaml
 
 cfg = yaml.safe_load(open("../codebase/config.yaml"))
 
-mongourl = cfg['mongourl']
+mongourl = cfg['test']['mongourl']
 database = cfg['database']
 collection = cfg['collection']
 collection_new = cfg['collection_new']
