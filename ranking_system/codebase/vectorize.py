@@ -5,15 +5,21 @@ from keras.preprocessing import image
 from keras.engine import Model
 from keras.applications.vgg19 import preprocess_input
 import logging
+# get config
+import yaml
+
 
 class Vectors:
     """
     for CNN network
     """
     def __init__(self):
+        cfg = yaml.safe_load(open("config.yaml"))
+        self.vectors_path = cfg['vectors_path']
         self.bm = VGG19(weights='imagenet')
-        self.path_to_model='/home/flomko/.keras/models/vgg19_weights_tf_dim_ordering_tf_kernels.h5'
+        self.model_path=cfg['model_path']
         self.model = Model(inputs=self.bm.input, outputs=self.bm.get_layer('fc1').output)
+        self.preds = np.dtype([('id', 'S15'),('prediction',np.float32,(4096))])
 
         logging.debug('Model has been initialized')
 
@@ -26,6 +32,34 @@ class Vectors:
         for img in paths:
             predictions.append(self.get_vector(img))
         return predictions
+
+    def get_prediction(self, path):
+        X = np.zeros(1, dtype=self.preds)
+        vector = self.get_vector(path)
+        id = path.split('/')[-1]
+        X['id'] = id
+        X['prediction'] = vector
+        return X
+
+    def add_vector(self, old_vector, new_vector):
+        return np.vstack([old_vector, new_vector])
+
+    def save_vectors(self, vectors):
+        '''
+
+        :param vectors: get np.ndarray, save to disk
+        :return:
+        '''
+        np.save(self.vectors_path, vectors)
+
+
+    def load_vectors(self, ):
+        '''
+        read vectors from disk
+        :param vectors:
+        :return:
+        '''
+        return np.load(self.vectors_path)
 
     def get_vector(self, path):
         """
@@ -44,13 +78,15 @@ class Vectors:
         vec = vec.ravel()
         return vec
 
+
+
+
     def load_model(self):
-        self.model.load_weights(self.path_to_model)
+        self.model.load_weights(self.model_path)
         logging.debug('Model has been load')
 
-
     def save_model(self):
-        self.model.save_weights(self.path_to_model)
+        self.model.save_weights(self.model_path)
         logging.debug('Model has been saved')
 
     def download_model(self):

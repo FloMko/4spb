@@ -30,3 +30,17 @@ predictions = vec.get_all_vectors(imhelp.paths)
 cl = cluster.Cluster()
 cl.train(predictions)
 cl.save()
+
+
+
+##
+import image_helper as imagehelper
+import vectorize as vectorize
+import yaml
+cfg = yaml.safe_load(open("config.yaml"))
+dataset_path = cfg['dataset_path']
+imhelp = imagehelper.Helper(dataset_path)
+vec = vectorize.Vectors()
+pred1 = vec.get_prediction(imhelp.paths[0])
+pred2 = vec.get_prediction(imhelp.paths[1])
+X = vec.add_vector(pred1, pred2)
