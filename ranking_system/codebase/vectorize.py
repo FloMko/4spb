@@ -8,7 +8,6 @@ import logging
 # get config
 import yaml
 
-
 class Vectors:
     """
     for CNN network
@@ -41,8 +40,31 @@ class Vectors:
         X['prediction'] = vector
         return X
 
-    def add_vector(self, old_vector, new_vector):
-        return np.vstack([old_vector, new_vector])
+    def add_vector(self, new_vector, old_vector=None):
+            '''
+
+            :param vectors: get set of predictions, parse them for knn.fit()
+            :return: None
+            '''
+            if old_vector is None:
+                return new_vector
+            else:
+                old_vector =  np.vstack((new_vector, old_vector))
+                return old_vector
+
+    def gef_generate(self, X):
+        '''
+        :param vectors: get set of predictions, parse them for knn.fit()
+        :return: None
+        '''
+        onepred = np.empty(4096)
+        predictions=[]
+        for pred in X:
+            print(pred[0][1])
+            onepred = vec.add_vector(pred)
+            print(len(onepred))
+            predictions.append(onepred)
+        return predictions
 
     def save_vectors(self, vectors):
         '''
@@ -77,9 +99,6 @@ class Vectors:
         vec = self.model.predict(x)
         vec = vec.ravel()
         return vec
-
-
-
 
     def load_model(self):
         self.model.load_weights(self.model_path)

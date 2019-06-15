@@ -2,5 +2,6 @@
 *__pycache__*
 *cluster*
 *.retry*
+*node_modules*
 ranking_system/tmpdata/
 vk_interaction_obj_rec/.env
