@@ -24,6 +24,11 @@ class Find:
         self.db_new = db_helper.Db(mongourl, database, collection_new)
 
     def prepare_image(self, photo):
+        """
+        resize photo for CNN
+        :param photo: path to image
+        :return:  path scaled image
+        """
         imhelp = imagehelper.Helper(dataset_path=self.temp_path)
         path = imhelp.download_image(photo_url=photo)
         imhelp.resize(path)

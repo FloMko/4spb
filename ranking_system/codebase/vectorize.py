@@ -19,6 +19,7 @@ class Vectors:
         self.model_path=cfg['model_path']
         self.model = Model(inputs=self.bm.input, outputs=self.bm.get_layer('fc1').output)
         self.preds = np.dtype([('id', 'S15'),('prediction',np.float32,(4096))])
+        self.old_vector = None
 
         logging.debug('Model has been initialized')
 
@@ -33,6 +34,11 @@ class Vectors:
         return predictions
 
     def get_prediction(self, path):
+        """
+        process image to CNN vector
+        :param path: image to process
+        :return: numphy ndarray with [0] - name, [1] CNN vector
+        """
         X = np.zeros(1, dtype=self.preds)
         vector = self.get_vector(path)
         id = path.split('/')[-1]
@@ -40,23 +46,25 @@ class Vectors:
         X['prediction'] = vector
         return X
 
-    def add_vector(self, new_vector, old_vector=None):
-            '''
+    def add_vector(self, new_vector):
+        """
+        for additional operation over vectors
+        :param new_vector: get set of predictions, parse them for knn.fit()
+        :return: None
+        """
+        if self.old_vector is None:
+            self.old_vector = new_vector
+            return self.old_vector
+        else:
+            self.old_vector = np.vstack((new_vector, self.old_vector))
+            return self.old_vector
 
-            :param vectors: get set of predictions, parse them for knn.fit()
-            :return: None
-            '''
-            if old_vector is None:
-                return new_vector
-            else:
-                old_vector =  np.vstack((new_vector, old_vector))
-                return old_vector
 
     def gef_generate(self, X):
-        '''
-        :param vectors: get set of predictions, parse them for knn.fit()
+        """
+        :param X: get set of predictions, parse them for knn.fit()
         :return: None
-        '''
+        """
         onepred = np.empty(4096)
         predictions=[]
         for pred in X:
@@ -67,20 +75,19 @@ class Vectors:
         return predictions
 
     def save_vectors(self, vectors):
-        '''
-
-        :param vectors: get np.ndarray, save to disk
-        :return:
-        '''
+        """
+        Let's save vectors to disk
+        :param vectors: get np.ndarray,
+        :return: None
+        """
         np.save(self.vectors_path, vectors)
 
 
     def load_vectors(self, ):
-        '''
+        """
         read vectors from disk
-        :param vectors:
-        :return:
-        '''
+        :return: vectors
+        """
         return np.load(self.vectors_path)
 
     def get_vector(self, path):

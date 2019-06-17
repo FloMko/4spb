@@ -47,25 +47,23 @@ predictions=[]
 for img in imhelp.paths:
     predictions.append(vec.get_prediction(img))
 
-X = vec.add_vector(predictions[1][0], predictions[0][0])
 
-preds= None
+preds = None
 for vector in predictions:
-    preds = vec.add_vector(vector[0])
+    preds = vec.add_vector(vector[0][1])
 
+imnames = None
+for vector in predictions:
+    imnames = vec.add_vector(vector[0][0])
 
-def add_vector(new_vector, old_vector=None):
-        '''
-        :param vectors: get set of predictions, parse them for knn.fit()
-        :return: None
-        '''
-        if old_vector is None:
-            return new_vector
-        else:
-            old_vector =  np.vstack((new_vector, old_vector))
-            return old_vector
+imnames = imnames[::-1]
+# let's reverse
+revpreds = preds[::-1]
+
 
 
 cl = cluster.Cluster()
-cl.train(predictions)
+cl.train(revpreds)
 cl.save()
+
+similar_images = [(imnames[indices[0][i]], dist[0][i]) for i in range(len(indices[0]))]
