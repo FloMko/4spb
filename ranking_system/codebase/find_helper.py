@@ -19,6 +19,7 @@ class Find:
         self.dataset_path = cfg['dataset_path']
         self.temp_path = cfg['temp_path']
         self.cluster = cluster.Cluster()
+        self.cluster.load()
         self.vec = vectorize.Vectors()
         self.db = db_helper.Db(mongourl, database, collection)
         self.db_new = db_helper.Db(mongourl, database, collection_new)
@@ -57,7 +58,6 @@ class Find:
 
 
     def main(self, photo):
-        self.cluster.load()
         path = self.prepare_image(photo)
         n_neighbor = len(imagehelper.Helper(dataset_path=self.dataset_path).get_images())
         near = self.vector_image(path, n_neighbor)

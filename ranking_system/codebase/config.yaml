@@ -1,14 +1,14 @@
-mongourl: 'mongodb://root:rootPassXXX@mongo-db:27017/admin'
+mongourl: 'mongodb://root:rootPassXXX@127.0.0.1:27017/admin'
 database: 'lostpets'
 collection: 'dataset'
 collection_new: 'datastore'
 image_url: 'https://pp.userapi.com/c851216/v851216826/efbc4/pnz7eaWD3b8.jpg'
 cluster_path: '../cluster/knn.joblib.pkl'
-dataset_path: '../dataset/'
+dataset_path: '../dataset2/'
 temp_path: '../tmpdata/'
 vectors_path: '../cluster/vectors.npy'
 model_path: '/home/flomko/.keras/models/vgg19_weights_tf_dim_ordering_tf_kernels.h5'
 
 test:
-  api_url: 'http://35.228.237.16:5000'
-  mongourl: 'mongodb://root:rootPassXXX@35.228.237.16:27017/admin'
+  api_url: 'http://127.0.0.1:5000'
+  mongourl: 'mongodb://root:rootPassXXX@127.0.0.1:27017/admin'

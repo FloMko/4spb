@@ -14,13 +14,16 @@ cfg = yaml.safe_load(open("config.yaml"))
 
 dataset_path = cfg['dataset_path']
 
+url = "https://pp.userapi.com/c635104/v635104691/46fbf/bhOiC3FY8d0.jpg"
+
 imhelp = imagehelper.Helper(dataset_path)
 
-def prepare_images():
-    imhelp.download_images(photo_urls)
+def prepare_image():
+    imhelp.download_image(photo_url)
     imhelp.fix_path()
     for path in imhelp.paths:
         imhelp.resize(path)
+
 
 prepare_images()
 
@@ -56,7 +59,7 @@ imnames = None
 for vector in predictions:
     imnames = vec.add_vector(vector[0][0])
 
-imnames = imnames[::-1]
+revimnames = imnames[::-1]
 # let's reverse
 revpreds = preds[::-1]
 
@@ -66,4 +69,5 @@ cl = cluster.Cluster()
 cl.train(revpreds)
 cl.save()
 
+dist, indices = cl.find_nearest(revpreds[0], len(revimnames))
 similar_images = [(imnames[indices[0][i]], dist[0][i]) for i in range(len(indices[0]))]

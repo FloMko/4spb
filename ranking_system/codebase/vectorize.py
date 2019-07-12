@@ -23,15 +23,13 @@ class Vectors:
 
         logging.debug('Model has been initialized')
 
-    def get_all_vectors(self, paths):
+    def get_images(self, predictions):
         """
-        iterate over dataset
-        return preprocessed vectors
+        extract image names from vectors scructure
+        :param predictions:
+        :return:
         """
-        predictions=[]
-        for img in paths:
-            predictions.append(self.get_vector(img))
-        return predictions
+        return None
 
     def get_prediction(self, path):
         """
@@ -65,14 +63,8 @@ class Vectors:
         :param X: get set of predictions, parse them for knn.fit()
         :return: None
         """
-        onepred = np.empty(4096)
-        predictions=[]
-        for pred in X:
-            print(pred[0][1])
-            onepred = vec.add_vector(pred)
-            print(len(onepred))
-            predictions.append(onepred)
-        return predictions
+
+        return None
 
     def save_vectors(self, vectors):
         """

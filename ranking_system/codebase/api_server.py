@@ -11,9 +11,6 @@ import yaml
 import db_helper
 import find_helper as findhelper
 
-
-
-
 class Api:
     """
             class for rest interaction
@@ -34,7 +31,6 @@ class Api:
         self.app.add_url_rule("/populate_trans/","populate_trans", self.insert_trans, methods=['POST'])
         self.app.add_url_rule("/find_image/","find_image", self.find_image, methods=['POST'])
         logging.debug('Api has been initialized')
-
 
     def search(self):
         """
