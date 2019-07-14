@@ -5,3 +5,5 @@
 *node_modules*
 ranking_system/tmpdata/
 vk_interaction_obj_rec/.env
+vk_interaction_obj_rec/codebase/package-lock.json
+vk_interaction_obj_rec/codebase/build/

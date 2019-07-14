@@ -18,15 +18,15 @@ url = "https://pp.userapi.com/c635104/v635104691/46fbf/bhOiC3FY8d0.jpg"
 
 imhelp = imagehelper.Helper(dataset_path)
 
-def prepare_image():
+def prepare_image(photo_url):
     imhelp.download_image(photo_url)
     imhelp.fix_path()
     for path in imhelp.paths:
         imhelp.resize(path)
 
 
-prepare_images()
-
+for url in photo_urls:
+    prepare_image(url)
 # prepare cluster
 vec = vectorize.Vectors()
 predictions = vec.get_all_vectors(imhelp.paths)
