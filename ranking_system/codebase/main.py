@@ -39,12 +39,18 @@ cl.save()
 ##
 import image_helper as imagehelper
 import vectorize as vectorize
+import vector_helper as vector_helper
 import cluster as cluster
 import yaml
 cfg = yaml.safe_load(open("config.yaml"))
 dataset_path = cfg['dataset_path']
 imhelp = imagehelper.Helper(dataset_path)
 vec = vectorize.Vectors()
+vechel = vector_helper.Helper()
+predictions = vec.load_vectors()
+vechel.write_to_db(predictions[0])
+
+
 
 predictions=[]
 for img in imhelp.paths:

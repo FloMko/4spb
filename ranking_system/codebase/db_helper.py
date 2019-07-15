@@ -6,28 +6,43 @@ class Db():
         self.db = self.client[database]
         self.collection = self.db[collection]
 
+
     def read_request(self,json_req):
         # Get json data, convert to mongo insert
         return json_req
 
     def write(self,reg):
+        """
+        for input info from flask
+        :param reg: request from outer side
+        :return: count of total writes
+        """
         inserted_count = 0
         for data in reg:
             response = self.write_record(data['response'])
             inserted_count+=response
 
     def write_record(self,formatted_req):
-        # write bson to db, return res
+        """
+        :param formatted_req: bson to db
+        :return: response from db with count
+        """
         req = [pymongo.InsertOne(formatted_req)]
         res = self.collection.bulk_write(req)
-        return res.inserted_count 
-
-    def search_record(self,search_req):
-        # return result from spec collection
-        res = self.collection.find_one(search_req)
-        return res
+        return res.inserted_count
 
     def search_records(self,search_req):
         # return result from spec collection
         res = self.collection.find(search_req)
         return res
+
+    def search_formatted_record(self,search_req):
+        """
+        :param search_req: search for record
+        :return: all of them
+        """
+        unformatted = self.collection.find(search_req)
+        result = []
+        for form in unformatted:
+            result.append(form)
+        return result
