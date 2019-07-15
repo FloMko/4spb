@@ -36,8 +36,9 @@ class Helper:
         :param db: object, access to db
         :return: structured dict with {rec['id']:{ 'ownerid': rec['owner_id'], 'photo_url': list_photo}}
         """
-        name = vector_structure_line[0][0]
+        name = vector_structure_line[0][0].decode('utf-8')
         vector = vector_structure_line[0][1]
         return self.db.write_record({'name': name, 'vector': pickle.dumps(vector)})
 
-
+    def search_in_db(self, name):
+        return self.db.search_formatted_record({'name': name})
