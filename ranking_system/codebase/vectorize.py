@@ -19,7 +19,7 @@ class Vectors:
         self.model_path=cfg['model_path']
         self.model = Model(inputs=self.bm.input, outputs=self.bm.get_layer('fc1').output)
         self.preds = np.dtype([('id', 'S15'),('prediction',np.float32,(4096))])
-        self.old_vector = None
+        self.old_vector = self.load_vectors()
 
         logging.debug('Model has been initialized')
 
@@ -75,12 +75,24 @@ class Vectors:
         np.save(self.vectors_path, vectors)
 
 
-    def load_vectors(self, ):
+    def load_vectors(self, vectors_path=False, init_new_vectors_index=False):
         """
-        read vectors from disk
-        :return: vectors
+        load vectors from disk
+        :param vectors_path: path to pickle file on disk
+        :param init_new_vectors_index: true if we are trying to init new structure
+        :return: bunch of vectors, loaded from disk
+
         """
-        return np.load(self.vectors_path)
+        if vectors_path:
+            vectors=vectors_path
+        else:
+            vectors=self.vectors_path
+        if init_new_vectors_index:
+            logging.debug('Vectors will None')
+            return None
+        else:
+            logging.debug('Vectors loaded from: '+ vectors)
+            return np.load(vectors)
 
     def get_vector(self, path):
         """
