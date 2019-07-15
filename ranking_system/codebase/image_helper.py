@@ -20,7 +20,6 @@ class Helper:
         self.fix_path()
         logging.debug('Image helper has been initialized')
 
-
     def get_images(self):
         self.images = os.listdir(self.dataset_path)
         return self.images

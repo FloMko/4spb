@@ -23,14 +23,6 @@ class Vectors:
 
         logging.debug('Model has been initialized')
 
-    def get_images(self, predictions):
-        """
-        extract image names from vectors scructure
-        :param predictions:
-        :return:
-        """
-        return None
-
     def get_prediction(self, path):
         """
         process image to CNN vector
@@ -57,15 +49,6 @@ class Vectors:
             self.old_vector = np.vstack((new_vector, self.old_vector))
             return self.old_vector
 
-
-    def gef_generate(self, X):
-        """
-        :param X: get set of predictions, parse them for knn.fit()
-        :return: None
-        """
-
-        return None
-
     def save_vectors(self, vectors):
         """
         Let's save vectors to disk
@@ -73,7 +56,6 @@ class Vectors:
         :return: None
         """
         np.save(self.vectors_path, vectors)
-
 
     def load_vectors(self, vectors_path=False, init_new_vectors_index=False):
         """
