@@ -20,6 +20,7 @@ class Helper:
         collection = cfg['collection_vectors']
         self.db = db_helper.Db(mongourl, database, collection)
         logging.debug('vec helper has been initialized')
+        self.vectors_count = get_total_photos_count()
 
     def get_images(self, predictions):
         """
@@ -42,3 +43,6 @@ class Helper:
 
     def search_in_db(self, name):
         return self.db.search_formatted_record({'name': name})
+
+    def get_total_photos_count(self, ):
+        return self.db.search_formatted_record({}.count())
