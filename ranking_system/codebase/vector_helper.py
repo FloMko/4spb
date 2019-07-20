@@ -22,13 +22,13 @@ class Helper:
         logging.debug('vec helper has been initialized')
         self.vectors_count = self.db_total_photos_count()
 
-    def get_images(self, predictions):
+    def get_images_from_db(self):
         """
         extract image names from vectors scructure
         :param predictions:
         :return:
         """
-        return None
+        return self.db.collection.distinct('name')
 
     def write_to_db(self,vector_structure_line):
         """
@@ -58,7 +58,8 @@ class Helper:
         """
         name = vector_structure_line[0][0].decode('utf-8')
         vector = vector_structure_line[0][1]
-        return self.db.collection.update_one({'name': name}, {"$set": {"vector": pickle.dumps(vector)}}, upsert=True ).raw_result
+        return self.db.collection.update_one({'name': name},
+                                             {"$set": {"vector": pickle.dumps(vector)}}, upsert=True ).raw_result
 
     def db_total_photos_count(self):
         return self.db.collection.count_documents({})
