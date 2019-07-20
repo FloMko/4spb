@@ -1,11 +1,8 @@
-import vectorize as vectorize
-import db_helper
-
-import numpy as np
 import pickle
 import logging
 # get config
 import yaml
+import db_helper
 
 
 class Helper:
@@ -30,7 +27,7 @@ class Helper:
         """
         return self.db.collection.distinct('name')
 
-    def write_to_db(self,vector_structure_line):
+    def write_to_db(self, vector_structure_line):
         """
         write vector structure to bd
         :param vector_structure_line: line in vectorize get_prediction format
@@ -59,7 +56,11 @@ class Helper:
         name = vector_structure_line[0][0].decode('utf-8')
         vector = vector_structure_line[0][1]
         return self.db.collection.update_one({'name': name},
-                                             {"$set": {"vector": pickle.dumps(vector)}}, upsert=True ).raw_result
+                                             {"$set": {"vector": pickle.dumps(vector)}}, upsert=True).raw_result
 
     def db_total_photos_count(self):
+        """
+        just get all count of documents
+        :return: count
+        """
         return self.db.collection.count_documents({})
