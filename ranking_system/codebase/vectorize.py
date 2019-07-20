@@ -1,12 +1,12 @@
+import logging
+# get config
+import yaml
 import numpy as np
 
 from keras.applications import VGG19
 from keras.preprocessing import image
 from keras.engine import Model
 from keras.applications.vgg19 import preprocess_input
-import logging
-# get config
-import yaml
 
 class Vectors:
     """
@@ -16,9 +16,9 @@ class Vectors:
         cfg = yaml.safe_load(open("config.yaml"))
         self.vectors_path = cfg['vectors_path']
         self.bm = VGG19(weights='imagenet')
-        self.model_path=cfg['model_path']
+        self.model_path = cfg['model_path']
         self.model = Model(inputs=self.bm.input, outputs=self.bm.get_layer('fc1').output)
-        self.preds = np.dtype([('id', 'S15'),('prediction',np.float32,(4096))])
+        self.preds = np.dtype([('id', 'S15'), ('prediction', np.float32, (4096))])
         self.old_vector = self.load_vectors()
 
         logging.debug('Model has been initialized')
@@ -31,8 +31,8 @@ class Vectors:
         """
         X = np.zeros(1, dtype=self.preds)
         vector = self.get_vector(path)
-        id = path.split('/')[-1]
-        X['id'] = id
+        identificator = path.split('/')[-1]
+        X['id'] = identificator
         X['prediction'] = vector
         return X
 
@@ -66,9 +66,9 @@ class Vectors:
 
         """
         if vectors_path:
-            vectors=vectors_path
+            vectors = vectors_path
         else:
-            vectors=self.vectors_path
+            vectors = self.vectors_path
         if init_new_vectors_index:
             logging.debug('Vectors will None')
             return None
@@ -94,14 +94,26 @@ class Vectors:
         return vec
 
     def load_model(self):
+        """
+        load model from disk
+        :return:
+        """
         self.model.load_weights(self.model_path)
         logging.debug('Model has been load')
 
     def save_model(self):
+        """
+        save model on disk
+        :return:
+        """
         self.model.save_weights(self.model_path)
         logging.debug('Model has been saved')
 
     def download_model(self):
+        """
+        download model
+        :return:
+        """
         self.model = Model(inputs=self.bm.input, outputs=self.bm.get_layer('fc1').output)
         logging.debug('Model has been re-download')
         self.save_model()
