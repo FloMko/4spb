@@ -65,5 +65,10 @@ class Helper:
         return path
 
     def remove_image(self, photo_path):
+        """
+        func for removing img
+        :param photo_path:
+        :return:
+        """
         os.remove(photo_path)
         logging.debug(photo_path + ' Has been removed')

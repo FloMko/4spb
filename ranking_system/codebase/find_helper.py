@@ -56,7 +56,6 @@ class Find:
                             str(record[1]))
         return response
 
-
     def main(self, photo):
         path = self.prepare_image(photo)
         n_neighbor = len(imagehelper.Helper(dataset_path=self.dataset_path).get_images())

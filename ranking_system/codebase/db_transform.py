@@ -1,13 +1,13 @@
-import db_helper
 # logging
 import logging
 # get config
 import yaml
+import db_helper
 
 class Transform:
     """
-        Class for transform db from front
-        """
+    Class for transform db from front
+    """
 
     def __init__(self):
         cfg = yaml.safe_load(open("config.yaml"))
@@ -27,7 +27,6 @@ class Transform:
         data = self.db.search_records({})
         data_new = data[0]['response']['items']
         return data_new
-
 
     def transform_data(self, data):
         """
@@ -50,7 +49,6 @@ class Transform:
                                              'photos_name': photos_name}})
         return rec_dict
 
-
     def populate_data(self, data):
         for req in data:
             self.db_new.write_record(data[req])
@@ -67,7 +65,6 @@ class Transform:
                 photos_urls.append(photo)
         self.photos_urls = photos_urls
         return self.photos_urls
-
 
     def main(self):
         data = self.get_old_db()
