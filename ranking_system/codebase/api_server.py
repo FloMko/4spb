@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from flask import request
-from flask_api import FlaskAPI
-from bson import json_util
 # logging
 import traceback
 import logging
+from flask import request
+from flask_api import FlaskAPI
+from bson import json_util
 # get config
 import yaml
 # external modules
@@ -25,11 +25,11 @@ class Api:
         self.db_new = db_helper.Db(mongourl, database, collection_new)
         self.find = findhelper.Find()
         self.app = FlaskAPI(__name__)
-        self.app.add_url_rule("/search/","search", self.search, methods=['POST'])
-        self.app.add_url_rule("/populate/","populate", self.insert, methods=['POST'])
-        self.app.add_url_rule("/search_trans/","search_trans", self.search_trans, methods=['POST'])
-        self.app.add_url_rule("/populate_trans/","populate_trans", self.insert_trans, methods=['POST'])
-        self.app.add_url_rule("/find_image/","find_image", self.find_image, methods=['POST'])
+        self.app.add_url_rule("/search/", "search", self.search, methods=['POST'])
+        self.app.add_url_rule("/populate/", "populate", self.insert, methods=['POST'])
+        self.app.add_url_rule("/search_trans/", "search_trans", self.search_trans, methods=['POST'])
+        self.app.add_url_rule("/populate_trans/", "populate_trans", self.insert_trans, methods=['POST'])
+        self.app.add_url_rule("/find_image/", "find_image", self.find_image, methods=['POST'])
         logging.debug('Api has been initialized')
 
     def search(self):
