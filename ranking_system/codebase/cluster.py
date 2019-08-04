@@ -1,7 +1,7 @@
-from sklearn.neighbors import NearestNeighbors
-from sklearn.externals import joblib
 # get logging
 import logging
+from sklearn.neighbors import NearestNeighbors
+from sklearn.externals import joblib
 # get config
 import yaml
 
