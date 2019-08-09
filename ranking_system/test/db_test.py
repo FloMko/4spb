@@ -16,11 +16,11 @@ old_db = db_helper.Db(mongourl, database, collection)
 def test_new_database_init():
     """check connection to new db"""
     isinstance(
-        new_db.search_record({}),
+        new_db.search_records({}),
         dict)
 
 def test_old_database_init():
     """check connection to old db"""
     isinstance(
-        old_db.search_record({}),
+        old_db.search_records({}),
         dict)

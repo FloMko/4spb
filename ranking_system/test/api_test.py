@@ -1,9 +1,10 @@
+# use logging
+import logging
+
 import requests
 
 # import codebase.find_helper as findhelper
 
-# use logging
-import logging
 
 # get config
 import yaml
@@ -20,8 +21,6 @@ def test_init_api_search():
         assert requests.post(api_url + '/search_trans/', json={}).status_code == 200
     except ConnectionResetError:
         logging.debug('error connect')
-    pass
-
 
 def test_api():
     """ return right res"""
@@ -29,8 +28,7 @@ def test_api():
         requests.post(api_url + '/find_image/', json={'photo': image_url}),
         requests.models.Response)
 
-
 def test_init_api():
-    """ return right status code"""
+    """ full cicle - return right status code"""
     request_url = api_url + '/find_image/'
     assert requests.post(request_url, json={'photo': image_url}).status_code == 200

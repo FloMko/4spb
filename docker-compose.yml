@@ -1,30 +1,30 @@
 version: '2.2'
 services:
-  api-python:
-    build:
-      context: ./ranking_system
-      dockerfile: Dockerfile
-    command: python3 /codebase/api_server.py
-    depends_on:
-    - mongo-db
-    volumes:
-      - ./ranking_system/dataset:/dataset
-      - ./ranking_system/tmpdata:/tmpdata
-      - ./ranking_system/cluster:/cluster
-    ports:
-    - 5000:5000
-    networks:
-      - lostpet
-  api-js:
-    build:
-      context: ./vk_interaction_obj_rec
-      dockerfile: Dockerfile
-    command: node VkWall.js
-    depends_on:
-    - mongo-db
-    - api-python
-    networks:
-      - lostpet
+#  api-python:
+#    build:
+#      context: ./ranking_system
+#      dockerfile: Dockerfile
+#    command: python3 /codebase/api_server.py
+#    depends_on:
+#    - mongo-db
+#    volumes:
+#      - ./ranking_system/dataset:/dataset
+#      - ./ranking_system/tmpdata:/tmpdata
+#      - ./ranking_system/cluster:/cluster
+#    ports:
+#    - 5000:5000
+#    networks:
+#      - lostpet
+#  api-js:
+#    build:
+#      context: ./vk_interaction_obj_rec
+#      dockerfile: Dockerfile
+#    command: node VkWall.js
+#    depends_on:
+#    - mongo-db
+#    - api-python
+#    networks:
+#      - lostpet
   mongo-db:
     image: mongo:4.0.6
     environment:
