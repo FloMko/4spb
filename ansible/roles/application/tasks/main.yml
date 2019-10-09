@@ -35,6 +35,7 @@
   copy:
     src: ../vk_interaction_obj_rec/.env
     dest: '{{ app_dir }}/vk_interaction_obj_rec/'
+
 - name: Copy api-js files
   copy:
     src: ../vk_interaction_obj_rec/codebase
