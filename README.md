@@ -1,6 +1,7 @@
 # 4spb
-search for lost pets 
-## build 
+application for search for lost pets
+database based on https://vk.com/yapoteryalsyaspb
+## build
 ### local build for project
 docker-compose up -d --build
 ###code delivery
