@@ -33,8 +33,16 @@ class Api:
         self.app.add_url_rule("/search_trans/","search_trans", self.search_trans, methods=['POST'])
         self.app.add_url_rule("/populate_trans/","populate_trans", self.insert_trans, methods=['POST'])
         self.app.add_url_rule("/find_image/","find_image", self.find_image, methods=['POST'])
+        self.app.add_url_rule("/get_latest/", "search_latest", self.search_latest, methods=['GET'])
         logging.debug('Api has been initialized')
 
+
+    def search_latest(self):
+        """
+        get request, search in db for latest record
+        """
+        response = self.db.search_latest_record()
+        return json_util.dumps(response['date'])
 
     def search(self):
         """
@@ -82,6 +90,10 @@ class Api:
             return json_util.dumps(response)
         except Exception:
             logging.error(traceback.format_exc())
+
+    # @dramatiq.actor(periodic=cron('*/10 * * * *'))
+    # def transformdb():
+
 
 if __name__ == "__main__":
     logging.getLogger().setLevel(logging.DEBUG)

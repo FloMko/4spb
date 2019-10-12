@@ -1,4 +1,6 @@
 import pymongo
+import logging
+
 
 class Db():
     def __init__(self, mongourl, database, collection):
@@ -25,6 +27,11 @@ class Db():
     def search_record(self,search_req):
         # return result from spec collection
         res = self.collection.find_one(search_req)
+        return res
+
+    def search_latest_record(self):
+        # return latest result from spec collection
+        res = self.collection.find_one({},sort=[('date',pymongo.DESCENDING)])
         return res
 
     def search_records(self,search_req):
