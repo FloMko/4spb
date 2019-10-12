@@ -1,7 +1,7 @@
 const vk = require('vk-easy')
 require('dotenv').load()
 const axios = require('axios')
-var url = 'http://api-python:5000' // url базы данных Максима
+var url = process.env.API_URL
 var BOT_TOKEN = process.env.BOT_TOKEN
 
 
@@ -32,21 +32,16 @@ function getWall() {
 
 function sendToDb(data) {
   axios.post(`${url}/populate/`, data)
-  .then(function (response) {
-    console.log(`${data.id} – ${response.status}`)
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
+    .then(response =>
+      console.log(`${data.id} – ${response.status}`))
+    .catch(err => console.log(err));
 }
 
 
 function getLatestDate() {
   return axios.get(`${url}/get_latest`)
-  .then((response) => {
-    return response.data
-  })
-  .catch((err) => 0)
+    .then(response => response.data)
+    .catch(err => 0)
 }
 
 
