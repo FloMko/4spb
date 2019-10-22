@@ -25,8 +25,19 @@ class Transform:
         :return: data
         """
         data = self.db.search_records({})
-        data_new = data[0]['response']['items']
-        return data_new
+        # data_new = data[0]['response']['items']
+        return data
+
+
+    def get_old_db_with_time(self, time):
+        """
+        let's find all object above timestamp
+        :param time: time in mongodb
+        :return:
+        """
+        data = self.db.search_records({'date': { '$gt': time }})
+        # data_new = data[0]['response']['items']
+        return data
 
 
     def transform_data(self, data):
@@ -67,6 +78,13 @@ class Transform:
                 photos_urls.append(photo)
         self.photos_urls = photos_urls
         return self.photos_urls
+
+    def update(self,time):
+        data = self.get_old_db_with_time(time)
+        data_new = self.transform_data(data)
+        self.populate_data(data_new)
+        logging.debug('database has been populated')
+        return self.get_photos_urls(data_new)
 
 
     def main(self):

@@ -3,7 +3,7 @@
   action: file path={{ app_dir }} state=directory
 
 - name: Copy docker-compose
-  copy:
+  template:
     src: ../docker-compose.yml
     dest: '{{ app_dir }}'
 
@@ -42,12 +42,12 @@
     dest: '{{ app_dir }}/vk_interaction_obj_rec/'
 
 - name: stop docker
-  docker_service:
+  docker_compose:
     project_src: '{{ app_dir }}'
     state: absent
 
 - name: start docker
-  docker_service:
+  docker_compose:
     build: yes
     project_src: '{{ app_dir }}'
     state: present

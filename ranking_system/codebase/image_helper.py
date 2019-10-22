@@ -15,41 +15,38 @@ class Helper:
     """
     def __init__(self, dataset_path):
         self.dataset_path = dataset_path
-        self.images = self.get_images()
         self.paths = []
-        self.fix_path()
+        self.images = self.get_images()
         logging.debug('Image helper has been initialized')
 
 
     def get_images(self):
         self.images = os.listdir(self.dataset_path)
-        return self.images
+        for img in self.images:
+            self.paths.append(self.dataset_path + img)
+        return self.paths
 
     def download_images(self, photo_urls):
         """
         download images
         :return: self.images
         """
+        images_paths = []
         for photo_url in photo_urls:
             response = requests.get(photo_url, stream=True)
-            with open(self.dataset_path + photo_url.split('/')[-1], 'wb') as out_file:
+            path_to_download = self.dataset_path + photo_url.split('/')[-1]
+            images_paths.append(path_to_download)
+            with open(path_to_download, 'wb') as out_file:
                 shutil.copyfileobj(response.raw, out_file)
             del response
         self.images = os.listdir(path=self.dataset_path)
         logging.debug('All photos has been downloaded')
+        return images_paths
 
     def resize(self, path, dim=(224,224)):
         img = cv2.imread(path, cv2.IMREAD_UNCHANGED)
         resized = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
         cv2.imwrite(path, resized)
-
-    def fix_path(self):
-        """
-        help fix paths for all images in dataset_path
-        """
-        self.get_images()
-        for img in self.images:
-            self.paths.append(self.dataset_path + img)
 
     def download_image(self, photo_url):
         """

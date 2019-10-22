@@ -1,7 +1,8 @@
-const vk = require('vk-easy')
-require('dotenv').load()
-const axios = require('axios')
-var url = process.env.API_URL
+const vk = require('vk-easy');
+require('dotenv').load();
+const axios = require('axios');
+const _ = require('underscore');
+var url = process.env.API_URL // url базы данных Максима
 var BOT_TOKEN = process.env.BOT_TOKEN
 
 

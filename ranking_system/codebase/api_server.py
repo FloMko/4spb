@@ -12,8 +12,6 @@ import db_helper
 import find_helper as findhelper
 
 
-
-
 class Api:
     """
             class for rest interaction
@@ -57,6 +55,7 @@ class Api:
         Get POST json. populate db
         """
         data = request.get_json()
+        logging.debug(data)
         res = self.db.write_record(data)
         return str(res)
 
