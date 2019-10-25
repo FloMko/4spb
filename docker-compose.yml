@@ -7,6 +7,11 @@ services:
     command: python3 /codebase/api_server.py
     depends_on:
     - mongo-db
+    healthcheck:
+      test: ["CMD", "./healtcheck.sh", "http://api-python:5000"]
+      interval: 30s
+      timeout: 10s
+      retries: 100
     volumes:
       - ./ranking_system/dataset:/dataset
       - ./ranking_system/tmpdata:/tmpdata
@@ -21,8 +26,8 @@ services:
       dockerfile: Dockerfile
     command: node VkWall.js
     depends_on:
-    - mongo-db
-    - api-python
+      api-python:
+        condition: service_healthy
     networks:
       - lostpet
   mongo-db:
