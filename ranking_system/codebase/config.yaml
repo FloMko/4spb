@@ -9,5 +9,5 @@ temp_path: '../tmpdata/'
 
 
 test:
-  api_url: 'http://35.228.39.29:5000'
-  mongourl: 'mongodb://root:rootPassXXX@35.228.39.29:27017/admin'
+  api_url: 'http://35.228.160.196:5000'
+  mongourl: 'mongodb://root:rootPassXXX@35.228.160.196:27017/admin'
