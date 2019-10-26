@@ -7,6 +7,7 @@ cluster_path: '../cluster/knn.joblib.pkl'
 dataset_path: '../dataset/'
 temp_path: '../tmpdata/'
 
+
 test:
-  api_url: 'http://127.0.0.1:5000'
-  mongourl: 'mongodb://root:rootPassXXX@35.228.60.57:27017/admin'
+  api_url: 'http://35.228.39.29:5000'
+  mongourl: 'mongodb://root:rootPassXXX@35.228.39.29:27017/admin'

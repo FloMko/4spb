@@ -15,16 +15,16 @@ class Helper:
     """
     def __init__(self, dataset_path):
         self.dataset_path = dataset_path
-        self.paths = []
         self.images = self.get_images()
         logging.debug('Image helper has been initialized')
 
 
     def get_images(self):
         self.images = os.listdir(self.dataset_path)
+        paths = []
         for img in self.images:
-            self.paths.append(self.dataset_path + img)
-        return self.paths
+            paths.append(self.dataset_path + img)
+        return paths
 
     def download_images(self, photo_urls):
         """

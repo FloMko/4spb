@@ -17,7 +17,7 @@ def init():
     # prepare cluster
     vec = vectorize.Vectors()
     imhelp = imagehelper.Helper(dataset_path)
-    predictions = vec.get_all_vectors(imhelp.paths)
+    predictions = vec.get_all_vectors(imhelp.get_images())
     cl = cluster.Cluster()
     cl.train(predictions)
     cl.save()
@@ -35,7 +35,7 @@ def update():
     # retrain cluster
     vec = vectorize.Vectors()
     imhelp = imagehelper.Helper(dataset_path)
-    predictions = vec.get_all_vectors(imhelp.paths)
+    predictions = vec.get_all_vectors(imhelp.get_images())
     cl = cluster.Cluster()
     cl.train(predictions)
     cl.save()

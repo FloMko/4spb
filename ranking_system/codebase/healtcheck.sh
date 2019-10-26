@@ -10,5 +10,3 @@ else
     echo The service is DOWN
     exit 1
 fi
-
-The problem I'm f
