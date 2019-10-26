@@ -26,6 +26,9 @@
 - name: Ensure tmp directory exists
   action: file path={{ app_dir }}/ranking_system{{ temp_path }} state=directory
 
+- name: Ensure weights directory exists
+  action: file path={{ app_dir }}/ranking_system{{ weights_path }} state=directory
+
 - name: Copy api-js docker file
   copy:
     src: ../vk_interaction_obj_rec/Dockerfile
