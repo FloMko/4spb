@@ -6,7 +6,7 @@ image_url: 'https://sun9-44.userapi.com/c635104/v635104532/56199/xUZvuTiE0pA.jpg
 cluster_path: '../cluster/knn.joblib.pkl'
 dataset_path: '../dataset/'
 temp_path: '../tmpdata/'
-
+weights_file: '/root/.keras/models/vgg19_weights_tf_dim_ordering_tf_kernels.h5'
 
 test:
   api_url: 'http://35.228.160.196:5000'
