@@ -1,6 +1,7 @@
 const vk = require('vk-easy')
 require('dotenv').load()
 const axios = require('axios')
+const cron = require('cron')
 var url = process.env.API_URL
 var BOT_TOKEN = process.env.BOT_TOKEN
 
@@ -45,4 +46,9 @@ function getLatestDate() {
 }
 
 
-getWall()
+const updateMinutes = 5
+console.log(`Updating at every ${updateMinutes}th minute`)
+new cron.CronJob(`*/${updateMinutes} * * * *`, () => {
+  console.log('Scraping wall')
+  getWall()
+}, null, true)

@@ -4,8 +4,8 @@
   "description": "",
   "main": "NLP.js",
   "dependencies": {
-    "node-gyp": "^3.8.0",
     "axios": "^0.18.0",
+    "cron": "^1.7.2",
     "dotenv": "^6.2.0",
     "node-vk-bot": "^1.2.3",
     "node-vk-bot-api": "^2.4.8",
