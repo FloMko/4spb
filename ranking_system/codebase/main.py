@@ -37,7 +37,7 @@ def update():
     photo_urls = tr.update(ten_minutes_ago_epoch_ts)
     cfg = yaml.safe_load(open("config.yaml"))
     dataset_path = cfg["dataset_path"]
-    downloaded_paths = prepare_images(photo_urls)
+    prepare_images(photo_urls)
     # retrain cluster
     vec = vectorize.Vectors()
     imhelp = imagehelper.Helper(dataset_path)

@@ -13,6 +13,9 @@ class Vectors:
     """
 
     def __init__(self):
+
+        # TODO: add local checking of file
+        # From config.yaml path to config
         self.bm = VGG19(weights="imagenet")
         self.path_to_model = (
             "/home/flomko/.keras/models/vgg19_weights_tf_dim_ordering_tf_kernels.h5"

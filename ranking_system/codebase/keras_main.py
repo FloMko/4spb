@@ -1,9 +1,9 @@
-import keras
-from keras.engine import Model
+# import keras
+# from keras.engine import Model
 from keras.applications import VGG19
 
 bm = VGG19(weights="imagenet")
-model = Model.get_weights(path)
+# model = Model.get_weights(path)
 path = "/home/flomko/.keras/models/vgg19_weights_tf_dim_ordering_tf_kernels.h5"
 bm.load_weights(path)
 path = "/home/flomko/.keras/models/vgg19_weights_tf_dim_ordering_tf_kernels.h5"
