@@ -6,23 +6,29 @@ from keras.engine import Model
 from keras.applications.vgg19 import preprocess_input
 import logging
 
+
 class Vectors:
     """
     for CNN network
     """
-    def __init__(self):
-        self.bm = VGG19(weights='imagenet')
-        self.path_to_model='/home/flomko/.keras/models/vgg19_weights_tf_dim_ordering_tf_kernels.h5'
-        self.model = Model(inputs=self.bm.input, outputs=self.bm.get_layer('fc1').output)
 
-        logging.debug('Model has been initialized')
+    def __init__(self):
+        self.bm = VGG19(weights="imagenet")
+        self.path_to_model = (
+            "/home/flomko/.keras/models/vgg19_weights_tf_dim_ordering_tf_kernels.h5"
+        )
+        self.model = Model(
+            inputs=self.bm.input, outputs=self.bm.get_layer("fc1").output
+        )
+
+        logging.debug("Model has been initialized")
 
     def get_all_vectors(self, paths):
         """
         iterate over dataset
         return preprocessed vectors
         """
-        predictions=[]
+        predictions = []
         for img in paths:
             predictions.append(self.get_vector(img))
         return predictions
@@ -46,14 +52,15 @@ class Vectors:
 
     def load_model(self):
         self.model.load_weights(self.path_to_model)
-        logging.debug('Model has been load')
-
+        logging.debug("Model has been load")
 
     def save_model(self):
         self.model.save_weights(self.path_to_model)
-        logging.debug('Model has been saved')
+        logging.debug("Model has been saved")
 
     def download_model(self):
-        self.model = Model(inputs=self.bm.input, outputs=self.bm.get_layer('fc1').output)
-        logging.debug('Model has been re-download')
+        self.model = Model(
+            inputs=self.bm.input, outputs=self.bm.get_layer("fc1").output
+        )
+        logging.debug("Model has been re-download")
         self.save_model()

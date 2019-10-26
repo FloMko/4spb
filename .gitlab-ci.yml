@@ -1,0 +1,13 @@
+stages:
+  - test
+  - deploy
+
+formatter:
+  stage: test
+  script: 
+    - apt-get update -qy
+    - apt-get install -y python3.7-dev python3.7-pip
+    - pip3 install -r ranking_system/requirements.txt
+    - black ranking_system
+    - flake8 ranking_system
+  
