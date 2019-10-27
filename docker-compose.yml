@@ -8,7 +8,7 @@ services:
     depends_on:
     - mongo-db
     healthcheck:
-      test: ["CMD", "./healtcheck.sh", "http://127.0.0.1:5000/search_trans/"]
+      test: ["CMD", "bash", "./healtcheck.sh", "http://api-python:5000/search_trans/"]
       interval: 30s
       timeout: 10s
       retries: 10
@@ -25,9 +25,9 @@ services:
       context: ./vk_interaction_obj_rec
       dockerfile: Dockerfile
     command: node VkWall.js
-#    depends_on:
-#      api-python:
-#        condition: service_healthy
+    depends_on:
+      api-python:
+        condition: service_healthy
     networks:
       - lostpet
   mongo-db:
