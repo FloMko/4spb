@@ -5,6 +5,8 @@ from keras.preprocessing import image
 from keras.engine import Model
 from keras.applications.vgg19 import preprocess_input
 import logging
+import yaml
+import pathlib
 
 
 class Vectors:
@@ -14,9 +16,14 @@ class Vectors:
 
     def __init__(self):
 
-        # TODO: add local checking of file
-        # From config.yaml path to config
-        self.bm = VGG19(weights="imagenet")
+        cfg = yaml.safe_load(open("./config.yaml"))
+        weights_file = pathlib.Path(cfg["weights_file"])
+        if weights_file.exists():
+            self.weights_path = str(weights_file.absolute())
+        else:
+            self.weights_path = "imagenet"  # download from github
+
+        self.bm = VGG19(weights=weights_file)
         self.path_to_model = (
             "/home/flomko/.keras/models/vgg19_weights_tf_dim_ordering_tf_kernels.h5"
         )
@@ -54,11 +61,11 @@ class Vectors:
         return vec
 
     def load_model(self):
-        self.model.load_weights(self.path_to_model)
+        self.model.load_weights(self.weights_file)
         logging.debug("Model has been load")
 
     def save_model(self):
-        self.model.save_weights(self.path_to_model)
+        self.model.save_weights(self.weights_file)
         logging.debug("Model has been saved")
 
     def download_model(self):

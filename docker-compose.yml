@@ -16,6 +16,7 @@ services:
       - ./ranking_system/dataset:/dataset
       - ./ranking_system/tmpdata:/tmpdata
       - ./ranking_system/cluster:/cluster
+      - ./ranking_system/weights:/root/.keras/models/
     ports:
     - 5000:5000
     networks:
