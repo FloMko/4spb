@@ -1,53 +1,79 @@
 ---
-- name: Ensure application directory exists
+- name: Ensure application root directory exists
   action: file path={{ app_dir }} state=directory
 
+- name: Ensure application directory exists
+  action: file path={{ app_dir }}/{{ item }} state=directory
+  with_items:
+    - ranking_system
+    - vk_interaction_obj_rec
+    - scheduler
+
 - name: Copy docker-compose
-  copy:
+  template:
     src: ../docker-compose.yml
     dest: '{{ app_dir }}'
 
-- name: Copy api-py docker file
-  copy:
-    src: ../ranking_system/Dockerfile
-    dest: '{{ app_dir }}/ranking_system/'
-
 - name: Copy api-py files
   copy:
-    src: ../ranking_system/codebase
+    src: ../ranking_system/{{ item }}
     dest: '{{ app_dir }}/ranking_system/'
+  with_items:
+    - Dockerfile
+    - codebase
 
-- name: Ensure cluster directory exists
-  action: file path={{ app_dir }}/ranking_system{{ cluster_path }} state=directory
-
-- name: Ensure dataset directory exists
-  action: file path={{ app_dir }}/ranking_system{{ dataset_path }} state=directory
-
-- name: Ensure tmp directory exists
-  action: file path={{ app_dir }}/ranking_system{{ temp_path }} state=directory
-
-- name: Copy api-js docker file
-  copy:
-    src: ../vk_interaction_obj_rec/Dockerfile
-    dest: '{{ app_dir }}/vk_interaction_obj_rec/'
-
-- name: Copy api-js token file
-  copy:
-    src: ../vk_interaction_obj_rec/.env
-    dest: '{{ app_dir }}/vk_interaction_obj_rec/'
+- name: Ensure ranking system's directories exists
+  action: file path={{ app_dir }}/ranking_system{{ item }} state=directory
+  with_items:
+    - "{{ cluster_path }}"
+    - "{{ dataset_path }}"
+    - "{{ temp_path }}"
+    - "{{ weights_path }}"
 
 - name: Copy api-js files
   copy:
-    src: ../vk_interaction_obj_rec/codebase
+    src: ../vk_interaction_obj_rec/{{ item }}
     dest: '{{ app_dir }}/vk_interaction_obj_rec/'
+  with_items:
+    - Dockerfile
+    - codebase
+    - .env
+
+- name: Copy scheduler-py files
+  copy:
+    src: ../scheduler/{{ item }}
+    dest: '{{ app_dir }}/scheduler/'
+  with_items:
+    - Dockerfile
+    - codebase
 
 - name: stop docker
-  docker_service:
+  docker_compose:
     project_src: '{{ app_dir }}'
     state: absent
+  tags: restart
+
+- name: prune docker
+  command: docker system prune --volumes -af
+
+- name: build images
+  shell: "docker-compose build"
+  args:
+    chdir: "{{ app_dir }}"
+  tags: restart
+
+- name: pull images
+  shell: "docker-compose pull"
+  args:
+    chdir: "{{ app_dir }}"
+  tags: restart
 
 - name: start docker
-  docker_service:
-    build: yes
+  docker_compose:
     project_src: '{{ app_dir }}'
     state: present
+  tags: restart
+
+- name: batch init db
+  command: docker exec -i 4spb_api-python_1 bash -c 'python3 main.py'
+  tags: [never, init]

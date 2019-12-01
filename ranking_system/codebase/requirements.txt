@@ -1,0 +1,15 @@
+apscheduler
+flask_api
+tf-estimator-nightly==1.12.0.dev20181208
+tf-nightly==1.14.1.dev20190409
+keras
+sklearn
+pymongo
+flask
+Flask
+Flask-API
+requests
+opencv-python==3.4.2.17
+opencv-contrib-python==3.4.2.17
+pillow
+ipython

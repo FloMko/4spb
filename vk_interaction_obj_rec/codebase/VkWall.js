@@ -16,13 +16,16 @@ function getWall() {
     try {
       const margin = await getLatestDate()
 
+      let skippedCount = 0
       for (let wallPost of res.response.items) {
         if (wallPost.date > margin) {
           sendToDb(wallPost)
         } else {
-          console.log(`post ${wallPost.id} already exists`)
+          skippedCount++
         }
       }
+
+      console.log(`${skippedCount} out of ${res.response.items.length} posts already exist`)
     } catch(err) {
       console.log(err)
     }
