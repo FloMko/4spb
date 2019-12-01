@@ -11,8 +11,9 @@ import logging
 import yaml
 
 # external modules
-import db_helper
-import find_helper as findhelper
+import dbHelper as dbHelper
+import findHelper as findHelper
+import main as core
 
 
 class Api:
@@ -26,9 +27,9 @@ class Api:
         database = cfg["database"]
         collection = cfg["collection"]
         collection_new = cfg["collection_new"]
-        self.db = db_helper.Db(mongourl, database, collection)
-        self.db_new = db_helper.Db(mongourl, database, collection_new)
-        self.find = findhelper.Find()
+        self.db = dbHelper.Db(mongourl, database, collection)
+        self.db_new = dbHelper.Db(mongourl, database, collection_new)
+        self.find = findHelper.Find()
         self.app = FlaskAPI(__name__)
         self.app.add_url_rule("/search/", "search", self.search, methods=["POST"])
         self.app.add_url_rule("/populate/", "populate", self.insert, methods=["POST"])
@@ -44,6 +45,9 @@ class Api:
         self.app.add_url_rule(
             "/get_latest/", "search_latest", self.search_latest, methods=["GET"]
         )
+        self.app.add_url_rule(
+            "/update_cluster/", "update_cluster", self.update_cluster, methods=["GET"]
+        )
         logging.debug("Api has been initialized")
 
     def search_latest(self):
@@ -52,6 +56,7 @@ class Api:
         """
         response = self.db.search_latest_record()
         return json_util.dumps(response["date"])
+
 
     def search(self):
         """
@@ -101,10 +106,18 @@ class Api:
         except Exception:
             logging.error(traceback.format_exc())
 
-    # @dramatiq.actor(periodic=cron('*/10 * * * *'))
-    # def transformdb():
+    def update_cluster(self):
+        """
+        invoce by get
+        :return: status
+        """
+        lastdate = self.db.search_latest_record()
+        core.update(lastdate)
+        return 'done'
 
 
 if __name__ == "__main__":
     logging.getLogger().setLevel(logging.DEBUG)
     Api().app.run(host="0.0.0.0", debug=False, threaded=False)
+
+

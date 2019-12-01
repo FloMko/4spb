@@ -1,0 +1,4 @@
+apscheduler
+ipython
+PyYAML
+requests

@@ -1,4 +1,4 @@
-import db_helper
+import dbHelper as dbHelper
 
 # logging
 import logging
@@ -11,15 +11,14 @@ class Transform:
     """
         Class for transform db from front
         """
-
     def __init__(self):
         cfg = yaml.safe_load(open("config.yaml"))
         mongourl = cfg["mongourl"]
         database = cfg["database"]
         collection = cfg["collection"]
         collection_new = cfg["collection_new"]
-        self.db = db_helper.Db(mongourl, database, collection)
-        self.db_new = db_helper.Db(mongourl, database, collection_new)
+        self.db = dbHelper.Db(mongourl, database, collection)
+        self.db_new = dbHelper.Db(mongourl, database, collection_new)
         self.photos_urls = []
 
     def get_old_db(self):
@@ -41,7 +40,8 @@ class Transform:
         # data_new = data[0]['response']['items']
         return data
 
-    def transform_data(self, data):
+    @staticmethod
+    def transform_data(data):
         """
         :param data: get mongodb dict
         :return: structured dict with {rec['id']:{ 'ownerid': rec['owner_id'], 'photos': list_photo}}
@@ -49,6 +49,7 @@ class Transform:
         i = 0
         rec_dict = {}
         for rec in data:
+            date = rec['date']
             photos = []
             photos_name = []
             if "attachments" in rec.keys():
@@ -65,6 +66,7 @@ class Transform:
                                     "ownerid": rec["owner_id"],
                                     "photos_url": photos,
                                     "photos_name": photos_name,
+                                    "date": date
                                 }
                             }
                         )

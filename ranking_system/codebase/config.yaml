@@ -9,5 +9,5 @@ temp_path: '../tmpdata/'
 weights_file: '/root/.keras/models/vgg19_weights_tf_dim_ordering_tf_kernels.h5'
 
 test:
-  api_url: 'http://35.228.160.196:5000'
-  mongourl: 'mongodb://root:rootPassXXX@35.228.160.196:27017/admin'
+  api_url: 'http://35.228.183.220:5000'
+  mongodb: 'mongodb://root:rootPassXXX@35.228.183.220:27017/admin'

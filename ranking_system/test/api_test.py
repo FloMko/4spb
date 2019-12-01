@@ -17,7 +17,8 @@ image_url = cfg["image_url"]
 def test_init_api_search():
     """ check connection through api to db"""
     try:
-        assert requests.post(api_url + "/search_trans/", json={}).status_code == 200
+        if not requests.post(api_url + "/search_trans/", json={}).status_code == 200:
+            raise AssertionError()
     except ConnectionResetError:
         logging.debug("error connect")
     pass
@@ -34,4 +35,5 @@ def test_api():
 def test_init_api():
     """ return right status code"""
     request_url = api_url + "/find_image/"
-    assert requests.post(request_url, json={"photo": image_url}).status_code == 200
+    if not requests.post(request_url, json={"photo": image_url}).status_code == 200:
+        raise AssertionError()

@@ -1,5 +1,5 @@
 import pymongo
-
+import logging
 
 class Db:
     def __init__(self, mongourl, database, collection):
@@ -7,7 +7,8 @@ class Db:
         self.db = self.client[database]
         self.collection = self.db[collection]
 
-    def read_request(self, json_req):
+    @staticmethod
+    def read_request(json_req):
         # Get json data, convert to mongo insert
         return json_req
 
@@ -26,7 +27,11 @@ class Db:
     def search_record(self, search_req):
         # return result from spec collection
         res = self.collection.find_one(search_req)
-        return res
+        if res is None:
+            logging.debug(str(search_req) + 'not found in db')
+            return 'Not found'
+        else:
+            return res
 
     def search_latest_record(self):
         # return latest result from spec collection

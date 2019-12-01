@@ -8,7 +8,7 @@ services:
     depends_on:
     - mongo-db
     healthcheck:
-      test: ["CMD", "bash", "./healtcheck.sh", "http://api-python:5000/search_trans/"]
+      test: ["CMD", "bash", "./healtcheck.sh", "http://api-python:5000/"]
       interval: 30s
       timeout: 10s
       retries: 10
@@ -31,8 +31,18 @@ services:
         condition: service_healthy
     networks:
       - lostpet
+  scheduler-py:
+    build:
+      context: ./scheduler
+      dockerfile: Dockerfile
+    command: python3 /codebase/main.py
+    depends_on:
+      api-python:
+        condition: service_healthy
+    networks:
+      - lostpet
   mongo-db:
-    image: mongo:4.0.6
+    image: mongo
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=rootPassXXX

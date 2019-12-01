@@ -23,7 +23,7 @@ class Vectors:
         else:
             self.weights_path = "imagenet"  # download from github
 
-        self.bm = VGG19(weights=weights_file)
+        self.bm = VGG19(weights=self.weights_path)
         self.path_to_model = (
             "/home/flomko/.keras/models/vgg19_weights_tf_dim_ordering_tf_kernels.h5"
         )
