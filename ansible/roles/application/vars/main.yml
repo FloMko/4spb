@@ -4,3 +4,4 @@ app_dir: /opt/4spb
 cluster_path: /cluster/
 dataset_path: /dataset/
 temp_path: /tmpdata/
+weights_path: /weights/
