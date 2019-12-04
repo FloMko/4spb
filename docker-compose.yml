@@ -5,6 +5,7 @@ services:
       context: ./ranking_system
       dockerfile: Dockerfile
     command: python3 /codebase/api_server.py
+    privileged: true
     depends_on:
     - mongo-db
     healthcheck:

@@ -68,11 +68,14 @@ class Find:
 
     @staticmethod
     def format_record(records):
-        logging.debug(records)
+        logging.debug('format records ' + str(records))
         response = []
         for record in records:
-            url = 'https://vk.com/wall' + str(record[0]['ownerid']) + '_' + str(record[0]['postid']) + ' score: ' \
-                                                                                + str(record[1])
+            if record[0] == 'Not found':
+                url = 'not found'
+            else:
+                url = 'https://vk.com/wall' + str(record[0]['ownerid']) + '_' + str(record[0]['postid']) + ' score: ' \
+                                                                   + str(record[1])
             response.append(url)
         return response
 
