@@ -6,7 +6,8 @@ image_url: 'https://sun9-44.userapi.com/c635104/v635104532/56199/xUZvuTiE0pA.jpg
 cluster_path: '../cluster/knn.joblib.pkl'
 dataset_path: '../dataset/'
 temp_path: '../tmpdata/'
+weights_file: '/root/.keras/models/vgg19_weights_tf_dim_ordering_tf_kernels.h5'
 
 test:
-  api_url: 'http://35.228.60.57:5000'
-  mongourl: 'mongodb://root:rootPassXXX@35.228.60.57:27017/admin'
+  api_url: 'http://35.228.24.125:5000'
+  mongodb: 'mongodb://root:rootPassXXX@35.228.24.125:27017/admin'
