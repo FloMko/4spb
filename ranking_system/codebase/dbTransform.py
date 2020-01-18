@@ -1,4 +1,4 @@
-import dbHelper as dbHelper
+from . import dbHelper as dbHelper
 
 # logging
 import logging

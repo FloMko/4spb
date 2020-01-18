@@ -7,3 +7,7 @@ vk_interaction_obj_rec/.env
 vk_interaction_obj_rec/codebase/build/
 vk_interaction_obj_rec/codebase/node_modules/
 vk_interaction_obj_rec/codebase/package-lock.json
+
+## environments
+docker-compose/
+env4spb/

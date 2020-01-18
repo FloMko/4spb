@@ -1,7 +1,7 @@
-import vectorize as vectorize
-import cluster as cluster
-import imageHelper as imageHelper
-import dbTransform as trans
+from . import vectorize as vectorize
+from . import cluster as cluster
+from . import imageHelper as imageHelper
+from . import dbTransform as trans
 
 # get config
 import yaml

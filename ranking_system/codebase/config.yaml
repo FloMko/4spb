@@ -1,4 +1,4 @@
-mongourl: 'mongodb://root:rootPassXXX@mongo-db:27017/admin'
+mongourl: 'mongodb://root:rootPassXXX@localhost:27017/admin'
 database: 'lostpets'
 collection: 'dataset'
 collection_new: 'datastore'
@@ -6,8 +6,11 @@ image_url: 'https://sun9-44.userapi.com/c635104/v635104532/56199/xUZvuTiE0pA.jpg
 cluster_path: '../cluster/knn.joblib.pkl'
 dataset_path: '../dataset/'
 temp_path: '../tmpdata/'
-weights_file: '/root/.keras/models/vgg19_weights_tf_dim_ordering_tf_kernels.h5'
+
+weights_file: '../ranking_system/weights/models/vgg19_weights_tf_dim_ordering_tf_kernels.h5'
+#weights_file: '/root/.keras/models/vgg19_weights_tf_dim_ordering_tf_kernels.h5'
+weight_docker_folder: './ranking_system/weights'
 
 test:
-  api_url: 'http://35.228.24.125:5000'
-  mongodb: 'mongodb://root:rootPassXXX@35.228.24.125:27017/admin'
+  api_url: 'http://127.0.0.1:5000'
+  mongodb: 'mongodb://root:rootPassXXX@127.0.0.1:27017/admin'
