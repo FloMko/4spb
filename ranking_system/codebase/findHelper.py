@@ -1,7 +1,7 @@
-import vectorize as vectorize
-import imageHelper as imageHelper
-import cluster as cluster
-import dbHelper as dbHelper
+from . import vectorize as vectorize
+from . import imageHelper as imageHelper
+from . import cluster as cluster
+from . import dbHelper as dbHelper
 import logging
 import numpy
 

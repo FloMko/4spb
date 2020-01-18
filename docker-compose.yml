@@ -1,59 +1,57 @@
 version: '2.2'
 services:
-  api-python:
-    build:
-      context: ./ranking_system
-      dockerfile: Dockerfile
-    command: python3 /codebase/api_server.py
-    privileged: true
-    depends_on:
-    - mongo-db
-    healthcheck:
-      test: ["CMD", "bash", "./healtcheck.sh", "http://api-python:5000/"]
-      interval: 30s
-      timeout: 10s
-      retries: 10
-    volumes:
-      - ./ranking_system/dataset:/dataset
-      - ./ranking_system/tmpdata:/tmpdata
-      - ./ranking_system/cluster:/cluster
-      - ./ranking_system/weights:/root/.keras/models/
-    ports:
-    - 5000:5000
-    networks:
-      - lostpet
-  api-js:
-    build:
-      context: ./vk_interaction_obj_rec
-      dockerfile: Dockerfile
-    command: node VkWall.js
-    depends_on:
-      api-python:
-        condition: service_healthy
-    networks:
-      - lostpet
-  scheduler-py:
-    build:
-      context: ./scheduler
-      dockerfile: Dockerfile
-    command: python3 /codebase/main.py
-    depends_on:
-      api-python:
-        condition: service_healthy
-    networks:
-      - lostpet
+#  api-python:
+#    build:
+#      context: ./ranking_system
+#      dockerfile: Dockerfile
+#    command: python3 /codebase/api_server.py
+#    privileged: true
+#    depends_on:
+#    - mongo-db
+#    healthcheck:
+#      test: ["CMD", "bash", "./healtcheck.sh", "http://api-python:5000/"]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 10
+#    volumes:
+#      - ./ranking_system/dataset:/dataset
+#      - ./ranking_system/tmpdata:/tmpdata
+#      - ./ranking_system/cluster:/cluster
+#      - ./ranking_system/weights:/root/.keras/models/
+#    ports:
+#    - 5000:5000
+#    networks:
+#      - default
+#  api-js:
+#    build:
+#      context: ./vk_interaction_obj_rec
+#      dockerfile: Dockerfile
+#    command: node VkWall.js
+#    networks:
+#      - bridge
+#    depends_on:
+#      api-python:
+#        condition: service_healthy
+#    networks:
+#      - default
+#  scheduler-py:
+#    build:
+#      context: ./scheduler
+#      dockerfile: Dockerfile
+#    command: python3 /codebase/main.py
+#    depends_on:
+#      api-python:
+#        condition: service_healthy
+#    networks:
+#      - default
   mongo-db:
     image: mongo
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=rootPassXXX
-      - API_URL="{{ vk_token }}"
     ports:
     - 27017:27017
-    networks:
-      - lostpet
 
-
-networks:
-  lostpet:
-    driver: bridge
+#networks:
+#  lostpet:
+#    driver: bridge
